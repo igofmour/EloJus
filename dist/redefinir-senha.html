@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Defina uma nova senha para seu acesso à EloJus.">
+  <meta name="theme-color" content="#111111">
+  <title>Redefinir senha — EloJus</title>
+  <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="login.css?v=0.14.0">
+  <script src="vendor/supabase.js?v=0.14.0" defer></script>
+  <script src="auth-config.js?v=0.14.0" defer></script>
+  <script src="auth.js?v=0.21.0" defer></script>
+  <script src="auth-form.js?v=0.14.0" defer></script>
+  <script src="redefinir-senha.js?v=0.14.0" defer></script>
+</head>
+<body>
+  <a class="skip-link" id="resetSkip" href="#resetTitle">Ir para o formulário</a>
+  <div class="login-layout">
+    <aside class="brand-panel" aria-label="EloJus, trabalho jurídico em conjunto">
+      <a class="brand" href="login.html" data-login-link aria-label="EloJus — acesso"><img src="assets/elojus-logo-v2-white.svg" width="174" height="45" alt="EloJus"><span>TRABALHO JURÍDICO EM CONJUNTO</span></a>
+      <div class="brand-message"><span class="eyebrow">O CONTEXTO CONECTA.</span><h2>Entre uma pessoa<br>e o próximo passo.</h2><p>Um novo acesso para seguir<br class="desktop-break"> de onde o trabalho parou.</p><div class="brand-rule"></div><p class="brand-caption">Da primeira orientação<br>à última revisão.</p></div>
+      <img class="brand-watermark" src="assets/elojus-symbol-v2-white.svg" alt="" aria-hidden="true">
+      <div class="brand-footer"><span>ELOJUS</span><span>Um contexto compartilhado.</span></div>
+    </aside>
+    <main class="access-panel">
+      <div class="access-top"><span>REDEFINIÇÃO DE SENHA</span><span class="prototype-badge">Sua conta</span></div>
+      <div class="login-content reset-content">
+        <section id="resetEntry" aria-labelledby="resetTitle">
+          <div class="welcome-mark" aria-hidden="true"><svg class="recovery-icon" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></svg></div>
+          <h1 id="resetTitle" tabindex="-1">Crie uma nova senha.</h1>
+          <p id="resetIntro" class="login-intro">Escolha uma nova senha e repita no campo abaixo para confirmar.</p>
+          <p id="resetLinkStatus" class="inline-note" role="status">Validando seu link de recuperação…</p>
+          <p id="resetError" class="form-error" role="alert" tabindex="-1" hidden></p>
+          <form id="resetForm" novalidate hidden>
+            <div class="field">
+              <label for="resetPassword">Nova senha</label>
+              <div class="password-input"><input id="resetPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Digite a nova senha" required aria-describedby="resetPasswordHint resetPasswordError"><button type="button" data-password-toggle="resetPassword" aria-label="Mostrar nova senha" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button></div>
+              <span id="resetPasswordHint" class="field-hint">Use pelo menos 8 caracteres.</span><span id="resetPasswordError" class="field-error" hidden></span>
+            </div>
+            <div class="field">
+              <label for="resetConfirm">Confirme a nova senha</label>
+              <div class="password-input"><input id="resetConfirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Repita a nova senha" required aria-describedby="resetConfirmError"><button type="button" data-password-toggle="resetConfirm" aria-label="Mostrar confirmação de senha" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button></div>
+              <span id="resetConfirmError" class="field-error" hidden></span>
+            </div>
+            <button class="submit-button" type="submit"><span>Redefinir senha</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></button>
+          </form>
+          <p class="first-access"><a id="resetRecoveryLink" href="recuperar-senha.html" data-recovery-link>Voltar à recuperação</a></p>
+          <div class="signup-note"><span class="demo-label">SOBRE ESTA ETAPA</span><p>Após salvar, entre novamente com sua nova senha. Seu link não poderá ser reutilizado.</p></div>
+        </section>
+        <section id="resetComplete" aria-labelledby="resetCompleteTitle" hidden>
+          <div class="welcome-mark success-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg></div>
+          <h1 id="resetCompleteTitle" tabindex="-1">Senha alterada.</h1>
+          <p class="login-intro">Sua nova senha foi salva. Você já pode voltar ao seu espaço de trabalho.</p>
+          <p id="resetCompleteNote" class="inline-note">Entre com a nova senha. As sessões anteriores foram encerradas.</p>
+          <a class="submit-button" href="login.html" data-login-link><span>Ir para o login</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a>
+        </section>
+        <noscript><p class="inline-note">Ative o JavaScript para acessar sua conta ou <a href="login.html">volte ao login</a>.</p></noscript>
+      </div>
+      <footer class="access-footer"><span>© EloJus</span><span>Seu acesso ao trabalho em conjunto.</span></footer>
+    </main>
+  </div>
+</body>
+</html>

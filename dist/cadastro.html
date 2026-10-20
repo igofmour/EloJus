@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Crie sua conta na EloJus, um espaço para o trabalho jurídico em conjunto.">
+  <meta name="theme-color" content="#111111">
+  <title>Cadastre-se — EloJus</title>
+  <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="login.css?v=0.14.0">
+  <script src="vendor/supabase.js?v=0.14.0" defer></script>
+  <script src="auth-config.js?v=0.14.0" defer></script>
+  <script src="auth.js?v=0.21.0" defer></script>
+  <script src="auth-form.js?v=0.14.0" defer></script>
+  <script src="cadastro.js?v=0.14.0" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#signupName">Ir para o formulário</a>
+  <div class="login-layout">
+    <aside class="brand-panel" aria-label="EloJus, trabalho jurídico em conjunto">
+      <a class="brand" href="login.html" data-login-link aria-label="EloJus — acesso"><img src="assets/elojus-logo-v2-white.svg" width="174" height="45" alt="EloJus"><span>TRABALHO JURÍDICO EM CONJUNTO</span></a>
+      <div class="brand-message"><span class="eyebrow">O CONTEXTO CONECTA.</span><h2>Entre uma pessoa<br>e o próximo passo.</h2><p>Um espaço para reunir a equipe<br class="desktop-break"> e construir cada entrega em conjunto.</p><div class="brand-rule"></div><p class="brand-caption">O primeiro passo é seu.<br>Os próximos, em equipe.</p></div>
+      <img class="brand-watermark" src="assets/elojus-symbol-v2-white.svg" alt="" aria-hidden="true">
+      <div class="brand-footer"><span>ELOJUS</span><span>Um contexto compartilhado.</span></div>
+    </aside>
+    <main class="access-panel">
+      <div class="access-top"><span>SEU PRIMEIRO ACESSO</span><span class="prototype-badge">Sua conta</span></div>
+      <section class="login-content signup-content" aria-labelledby="signupTitle">
+        <div id="signupDetails">
+          <div class="welcome-mark" aria-hidden="true"><img src="assets/elojus-symbol-v2.svg" alt="" width="27" height="27"></div>
+          <h1 id="signupTitle">Crie seu acesso.</h1>
+          <p class="login-intro">Crie sua conta para começar o próximo passo.</p>
+          <p class="inline-note" data-email-setup>Envio de e-mails em configuração. Por enquanto, apenas membros da organização podem receber os links.</p>
+          <form id="signupForm" novalidate>
+            <div class="field"><label for="signupName">Nome completo</label><input id="signupName" type="text" autocomplete="name" maxlength="120" placeholder="Como você se chama?" required aria-describedby="nameError"><span id="nameError" class="field-error" hidden></span></div>
+            <div class="field"><label for="signupEmail">E-mail</label><input id="signupEmail" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="254" placeholder="voce@escritorio.com.br" required aria-describedby="emailError"><span id="emailError" class="field-error" hidden></span></div>
+            <div class="field"><label for="signupPassword">Senha</label><div class="password-input"><input id="signupPassword" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Crie uma senha" required aria-describedby="passwordHint passwordError"><button type="button" data-password-toggle="signupPassword" aria-label="Mostrar senha" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button></div><span id="passwordHint" class="field-hint password-hint">Use pelo menos 8 caracteres.</span><span id="passwordError" class="field-error" hidden></span></div>
+            <div class="field"><label for="signupConfirm">Confirme a senha</label><div class="password-input"><input id="signupConfirm" type="password" autocomplete="new-password" maxlength="128" placeholder="Repita a senha" required aria-describedby="confirmError"><button type="button" data-password-toggle="signupConfirm" aria-label="Mostrar confirmação de senha" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button></div><span id="confirmError" class="field-error" hidden></span></div>
+            <p id="signupError" class="form-error" role="alert" tabindex="-1" hidden></p>
+            <button class="submit-button" id="signupSubmit" type="submit"><span>Criar conta</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></button>
+            <p class="first-access">Já tem uma conta? <a href="login.html" data-login-link>Entrar</a></p>
+          </form>
+          <div class="signup-note"><span class="demo-label">CONFIRME SEU E-MAIL</span><p>Após o cadastro, abra o link de confirmação neste mesmo navegador para ativar sua conta.</p></div>
+        </div>
+        <div id="signupSuccess" class="signup-success" hidden>
+          <div class="welcome-mark success-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></svg></div>
+          <span class="demo-label">PRÓXIMO PASSO</span>
+          <h1 id="successTitle" tabindex="-1">Confira seu e-mail.</h1>
+          <p id="signupSuccessIntro" class="login-intro">Se este endereço puder ser cadastrado, você receberá um link para confirmar sua conta.</p>
+          <div class="registered-profile"><strong id="registeredName"></strong><span id="registeredEmail"></span></div>
+          <a class="submit-button" href="login.html" data-login-link>Ir para o login <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a>
+          <p class="success-note">Verifique também o spam. Abra o link neste mesmo navegador, em que você iniciou o cadastro.</p>
+        </div>
+        <noscript><p class="inline-note">Ative o JavaScript para criar sua conta.</p></noscript>
+      </section>
+      <footer class="access-footer"><span>© EloJus</span><span>Seu acesso ao trabalho em conjunto.</span></footer>
+    </main>
+  </div>
+</body>
+</html>

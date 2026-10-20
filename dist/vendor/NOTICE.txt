@@ -1,0 +1,18 @@
+EloJus browser dependencies
+
+@supabase/supabase-js 2.118.0 — MIT — https://github.com/supabase/supabase-js
+Package and transitive dependency integrity are pinned in pnpm-lock.yaml.
+This SDK sends account credentials and auth requests to the configured Supabase project over HTTPS. Document content remains local.
+
+Quill 2.0.3 — BSD 3-Clause — https://quilljs.com
+docx 9.6.1 — MIT — https://docx.js.org
+pdfmake 0.2.20 — MIT — https://pdfmake.github.io/docs/0.1/
+Roboto font files embedded in vfs_fonts.js — Apache 2.0
+Font source/license: https://github.com/googlefonts/roboto-2
+
+Licenses are included alongside these browser bundles. Upstream license
+headers remain inside the bundles. Registry tarball integrity and the
+bundled docx SHA-256 are recorded in manifest.json. The original packages
+are not modified. Browser dependencies are served locally; user document
+content is not submitted to a remote conversion service.
+PDF.js 5.6.205 — Apache 2.0 — https://mozilla.github.io/pdf.js/ — Local bundle, worker, fonts, CMaps and WASM resources in pdfjs/. Their licenses are retained in that folder.

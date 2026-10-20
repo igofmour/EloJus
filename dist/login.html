@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Entre na EloJus e encontre seu espaço de trabalho jurídico em conjunto.">
+  <meta name="theme-color" content="#111111">
+  <title>Entrar — EloJus</title>
+  <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="login.css?v=0.14.0">
+  <script src="vendor/supabase.js?v=0.14.0" defer></script>
+  <script src="auth-config.js?v=0.14.0" defer></script>
+  <script src="auth.js?v=0.21.0" defer></script>
+  <script src="auth-form.js?v=0.14.0" defer></script>
+  <script src="login.js?v=0.17.0" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#loginEmail">Ir para o formulário</a>
+  <div class="login-layout">
+    <aside class="brand-panel" aria-label="EloJus, trabalho jurídico em conjunto">
+      <a class="brand" href="apresentacao.html" aria-label="EloJus — apresentação"><img src="assets/elojus-logo-v2-white.svg" width="174" height="45" alt="EloJus"><span>TRABALHO JURÍDICO EM CONJUNTO</span></a>
+      <div class="brand-message"><span class="eyebrow">O CONTEXTO CONECTA.</span><h2>Entre uma pessoa<br>e o próximo passo.</h2><p>Conecte a equipe, organize os casos e dê<br class="desktop-break"> continuidade ao que importa.</p><div class="brand-rule"></div><p class="brand-caption">Da primeira orientação<br>à última revisão.</p></div>
+      <img class="brand-watermark" src="assets/elojus-symbol-v2-white.svg" alt="" aria-hidden="true">
+      <div class="brand-footer"><span>ELOJUS</span><span>Um contexto compartilhado.</span></div>
+    </aside>
+    <main class="access-panel">
+      <div class="access-top"><span>ESPAÇO DE TRABALHO</span><span class="prototype-badge">Sua conta</span></div>
+      <section class="login-content" aria-labelledby="loginTitle">
+        <div class="welcome-mark" aria-hidden="true"><img src="assets/elojus-symbol-v2.svg" alt="" width="27" height="27"></div>
+        <h1 id="loginTitle">Bom ter você aqui.</h1>
+        <p class="login-intro">Entre para continuar seu trabalho na EloJus.</p>
+        <p id="registrationNotice" class="inline-note" role="status" hidden>Entre na sua conta para continuar.</p>
+        <form id="loginForm" novalidate>
+          <div class="field"><label for="loginEmail">E-mail</label><input id="loginEmail" type="email" inputmode="email" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="voce@escritorio.com.br" required aria-describedby="emailError"><span id="emailError" class="field-error" hidden></span></div>
+          <div class="field"><div class="password-label"><label for="loginPassword">Senha</label><a class="text-button" id="forgotPassword" href="recuperar-senha.html">Esqueci minha senha</a></div><div class="password-input"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Digite sua senha" required aria-describedby="passwordError capsLockNote"><button id="togglePassword" data-password-toggle="loginPassword" type="button" aria-label="Mostrar senha" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button></div><span id="passwordError" class="field-error" hidden></span><span id="capsLockNote" class="field-hint" hidden>Caps Lock está ativado.</span></div>
+          <p id="loginError" class="form-error" role="alert" tabindex="-1" hidden></p>
+          <button class="submit-button" id="loginSubmit" type="submit"><span>Entrar</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></button>
+          <p class="first-access">Ainda não tem uma conta? <a id="signupLink" href="cadastro.html">Cadastre-se</a></p>
+        </form>
+        <noscript><p class="inline-note">Ative o JavaScript do navegador para acessar sua conta.</p></noscript>
+      </section>
+      <footer class="access-footer"><span>© EloJus</span><span>Seu acesso ao trabalho em conjunto.</span></footer>
+    </main>
+  </div>
+</body>
+</html>

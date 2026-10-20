@@ -1,0 +1,27 @@
+[
+  {
+    "package": "quill",
+    "version": "2.0.3",
+    "integrity": "sha512-xEYQBqfYx/sfb33VJiKnSJp8ehloavImQ2A6564GAbqG55PGw1dAWUn1MUbQB62t0azawUS2CZZhWCjO8gRvTw==",
+    "source": "https://registry.npmjs.org/quill/-/quill-2.0.3.tgz"
+  },
+  {
+    "package": "pdfmake",
+    "version": "0.2.20",
+    "integrity": "sha512-bGbxbGFP5p8PWNT3Phsu1ZcRLnRfF6jmnuKTkgmt6i5PZzSdX6JaB+NeTz9q+aocfW8SE9GUjL3o/5GroBqGcQ==",
+    "source": "https://registry.npmjs.org/pdfmake/-/pdfmake-0.2.20.tgz"
+  },
+  {
+    "package": "docx",
+    "version": "9.6.1",
+    "source": "Codex bundled workspace dependencies",
+    "sha256": "74b1fea88820bf8cd66ee7e69e91e1e9b436db58a88a17bcc65fee36c00ca683"
+  },
+  {
+    "package": "pdfjs-dist",
+    "version": "5.6.205",
+    "source": "Codex bundled workspace dependencies",
+    "sha256": "43c67d941a73a2d65be72c97f5e68d9a7963df53b219cc1c0aa85f2b8bd1c9bd",
+    "workerSha256": "08ee175af31a8537ee0ddee910717db78c6751e2016c4ddc3f033d5047ed5aa0"
+  }
+]

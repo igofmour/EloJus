@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR" data-session-required>
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="EloJus — casos, equipe e revisão em um escritório compartilhado.">
+  <meta name="theme-color" content="#111111"><meta name="referrer" content="no-referrer">
+  <title>EloJus — escritório compartilhado</title>
+  <script>if(!location.hash)location.replace('apresentacao.html'+location.search);</script>
+  <style>html[data-session-required] body{visibility:hidden}</style>
+  <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="vendor/quill.core.css"><link rel="stylesheet" href="workspace.css?v=0.8.0">
+  <link rel="stylesheet" href="guided.css?v=0.8.0"><link rel="stylesheet" href="continuous.css?v=0.8.0">
+  <link rel="stylesheet" href="paged-editor.css?v=0.9.0"><link rel="stylesheet" href="shared-workspace.css?v=0.21.0">
+  <script src="vendor/supabase.js?v=0.14.0" defer></script><script src="auth-config.js?v=0.14.0" defer></script>
+  <script src="auth.js?v=0.21.0" defer></script><script src="shared-api.js?v=0.21.0" defer></script>
+  <script src="shared-save.js?v=0.21.0" defer></script>
+  <script src="attachment-model.js?v=0.8.0" defer></script><script src="guided-model.js?v=0.8.0" defer></script>
+  <script src="vendor/quill.js" defer></script><script src="rich-document.js?v=0.21.0" defer></script>
+  <script src="rich-editor.js?v=0.8.0" defer></script><script src="paged-editor.js?v=0.9.0" defer></script>
+  <script src="document-export.js?v=0.21.0" defer></script>
+  <script src="shared-workspace.js?v=0.21.0" defer></script>
+</head>
+<body>
+  <noscript>Ative o JavaScript para abrir a EloJus.</noscript><a class="skip-link" href="#mainContent">Ir para o conteúdo</a>
+  <aside class="app-sidebar">
+    <a class="app-brand" href="#inicio" data-route="inicio"><img src="assets/elojus-logo-v2-white.svg" alt="EloJus" width="166" height="43"><small>TRABALHO JURÍDICO EM CONJUNTO</small></a>
+    <div class="office-switch"><span class="avatar" id="officeAvatar">EJ</span><div><strong id="officeName">Seu escritório</strong><small id="officeRole">Conectando…</small></div></div>
+    <label class="sr-only" for="officeSelect">Escritório ativo</label><select id="officeSelect" hidden></select>
+    <p class="nav-heading">ESPAÇO DE TRABALHO</p>
+    <nav id="sidebarNav" aria-label="Navegação principal"><a class="side-nav" href="#inicio" data-route="inicio">◫ &nbsp; Minha mesa</a><a class="side-nav" href="#casos" data-route="casos">▤ &nbsp; Casos do escritório</a><a class="side-nav" href="#revisoes" data-route="revisoes">✓ &nbsp; Revisões</a><a class="side-nav" href="#equipe" data-route="equipe">♧ &nbsp; Equipe e convites</a></nav>
+    <div class="sidebar-bottom"><span>O CONTEXTO CONECTA.</span><p class="brand-motto">Entre uma pessoa<br>e o próximo passo.</p><a href="demonstracao.html#inicio">Abrir demonstração local ↗</a><a href="apresentacao.html">Apresentação da EloJus ↗</a></div>
+  </aside>
+  <div class="app-shell">
+    <header class="app-topbar"><div class="breadcrumb">Escritório <span>/</span> <strong id="viewLabel">Minha mesa</strong></div><div class="profile-control"><span id="accountName"></span><span class="avatar" id="accountAvatar">EU</span><button class="button quiet" data-action="logout" type="button">Sair ↗</button></div></header>
+    <div class="shared-strip"><span>Escritório compartilhado</span><span id="connectionStatus" role="status">Conectando ao Supabase…</span></div>
+    <main id="mainContent" class="main-content" tabindex="-1"><div class="empty-state"><h1>Abrindo seu escritório…</h1></div></main>
+    <footer class="app-footer">Casos, minutas e comentários salvos no Supabase. Entregas são internas; a aprovação não assina nem protocola documentos.</footer>
+  </div>
+  <div id="notice" role="status" aria-live="polite"></div><dialog id="workspaceDialog" aria-label="Detalhes"></dialog>
+</body></html>

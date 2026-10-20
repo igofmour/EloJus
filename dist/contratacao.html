@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="Confira o escritório e o plano escolhido na prévia de contratação da EloJus.">
+  <title>Contratação — EloJus</title>
+  <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="planos.css?v=0.19.0">
+  <link rel="stylesheet" href="contratacao.css?v=0.20.0">
+  <script src="vendor/supabase.js?v=0.14.0" defer></script>
+  <script src="auth-config.js?v=0.14.0" defer></script>
+  <script src="auth.js?v=0.21.0" defer></script>
+  <script src="office-api.js?v=0.19.0" defer></script>
+  <script src="contratacao.js?v=0.20.0" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o resumo</a>
+  <header class="plans-header"><div class="wrap header-inner"><a class="brand" href="apresentacao.html" aria-label="EloJus — apresentação"><img src="assets/elojus-logo-v2.svg" alt="EloJus" width="151" height="40"></a><span class="header-caption">O CONTEXTO CONECTA.</span><a id="accountLink" class="header-link" href="login.html?next=%23contratacao">Entrar <span aria-hidden="true">↗</span></a></div></header>
+  <main class="wrap" id="conteudo">
+    <div class="journey-bar"><a class="back-link" href="planos.html"><span aria-hidden="true">←</span> Voltar aos planos</a><ol class="journey" aria-label="Preparação do escritório"><li id="officeStep"><span aria-hidden="true">01</span> Escritório</li><li id="planStep"><span aria-hidden="true">02</span> Plano</li><li aria-current="step"><span aria-hidden="true">03</span> Contratação</li></ol></div>
+    <section class="contract-intro" aria-labelledby="contractTitle"><div><p class="eyebrow">PRÉVIA DA CONTRATAÇÃO</p><h1 id="contractTitle">Seu escritório,<br>seu próximo passo.</h1><p>Reunimos o cadastro e o plano escolhido<br>para você conferir tudo em um só lugar.</p></div><div class="stage-note"><span class="stage-number" aria-hidden="true">03</span><span class="eyebrow">UM NOVO ELO.<br>DO SEU JEITO.</span></div></section>
+
+    <section class="account-gate" id="accountGate" aria-label="Acesso ao resumo"><p id="gateMessage" role="status">Carregando o escritório e o plano escolhido…</p><p id="gateError" class="error" role="alert" hidden></p><a class="button dark" id="gateAction" href="login.html?reason=session&amp;next=%23contratacao" hidden>Entrar para continuar <span aria-hidden="true">→</span></a><button type="button" class="text-button" id="retryLoad" hidden>Tentar novamente</button><noscript><p>Ative JavaScript para consultar o resumo do seu escritório.</p></noscript></section>
+
+    <div id="contractSummary" hidden>
+      <div class="contract-grid">
+        <div class="office-column">
+          <section class="office-sheet" aria-labelledby="officeHeading">
+            <div class="sheet-heading"><h2 id="officeHeading">Dados do escritório</h2><a href="cadastro-escritorio.html">Consultar cadastro <span aria-hidden="true">↗</span></a></div>
+            <div class="office-identity"><span class="identity-symbol" aria-hidden="true"><img src="assets/elojus-symbol-v2.svg" alt="" width="28" height="28"></span><div><p class="eyebrow">ESCRITÓRIO CADASTRADO</p><h3 id="summaryOffice" data-office-detail></h3></div></div>
+            <dl class="office-facts"><div class="responsible-fact"><dt>Advogado responsável</dt><dd id="summaryResponsible" data-office-detail></dd></div><div><dt>OAB / UF</dt><dd id="summaryOab" data-office-detail></dd></div><div><dt>E-mail profissional</dt><dd id="summaryEmail" data-office-detail></dd></div><div><dt>Telefone</dt><dd id="summaryPhone" data-office-detail></dd></div></dl>
+            <p class="record-note"><span aria-hidden="true">✓</span> Cadastro vinculado à conta responsável.</p>
+          </section>
+          <section class="next-conditions" aria-labelledby="conditionsTitle"><span class="condition-symbol" aria-hidden="true">↗</span><div><p class="eyebrow">ANTES DE CONTRATAR</p><h2 id="conditionsTitle">Tudo claro, antes do próximo passo.</h2><p>Os valores, a periodicidade e as condições de contratação ainda estão em definição. Você poderá conferir essas informações antes de confirmar uma assinatura.</p></div></section>
+        </div>
+        <section class="contract-plan" aria-labelledby="summaryPlan">
+          <div class="plan-topline"><span class="eyebrow">PLANO ESCOLHIDO</span><span class="plan-saved">Escolha salva</span></div>
+          <h2 id="summaryPlan" data-office-detail></h2><p id="summaryPlanDescription" class="contract-description" data-office-detail></p>
+          <div class="contract-price">Valor a definir<span>PROPOSTA INICIAL</span></div>
+          <dl class="plan-conditions"><div><dt>Periodicidade</dt><dd>A definir</dd></div><div><dt>Assinatura</dt><dd>Não ativada</dd></div></dl>
+          <button type="button" class="button future-contract" disabled aria-describedby="availabilityNote">Contratação em breve <span aria-hidden="true">→</span></button>
+          <p id="availabilityNote" class="availability-note">A contratação ainda não está disponível. Nenhum pagamento será solicitado nesta etapa.</p>
+          <a class="review-plan-link" href="planos.html">Revisar plano escolhido <span aria-hidden="true">↗</span></a>
+        </section>
+      </div>
+      <div class="contract-status"><span class="status-symbol" aria-hidden="true">○</span><div><strong>Resumo pronto. Contratação em preparação.</strong><p>Seu escritório e sua escolha de plano estão salvos. Esta prévia não ativa assinatura nem gera cobrança.</p></div><span class="status-label">SEM COBRANÇA</span></div>
+      <div class="contract-bottom"><a href="planos.html"><span aria-hidden="true">←</span> Voltar aos planos</a><a href="index.html#inicio">Ir para meu ambiente <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </main>
+  <footer class="plans-footer wrap"><a href="apresentacao.html" aria-label="EloJus — apresentação"><img src="assets/elojus-logo-v2.svg" alt="EloJus" width="108" height="29"></a><span>Entre uma pessoa e o próximo passo.</span><span>© EloJus</span></footer>
+</body>
+</html>

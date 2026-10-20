@@ -1,0 +1,54 @@
+'use strict';
+const assert = require('node:assert/strict'), fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
+const M = require('./dist/workspace-model'), G = require('./dist/guided-model'), A = require('./dist/attachment-model'), R = require('./dist/rich-document'), C = require('./dist/continuous-model');
+const state = G.upgrade(M.createSeed()), initial = state.cases.find(c=>c.guided?.type==='initial'), defense = state.cases.find(c=>c.guided?.type==='defense');
+const section = initial.sections.find(s=>s.id==='fatos');
+section.delta={ops:[{insert:'Entrega de caução',attributes:{bold:true}},{insert:'\n'},{insert:section.text,attributes:{italic:true}},{insert:'\n'},{insert:'Comprovante fictício',attributes:{underline:true}},{insert:'\n',attributes:{list:'bullet'}}]}; section.text=R.text(section);
+A.addFile(initial,{id:'f1',name:'Recibo.txt',size:100,sha256:'hash',ext:'txt',mime:'text/plain',uploadedAt:new Date().toISOString()});
+A.addLink(initial,{id:'l1',attachmentId:'f1',sectionId:'fatos',quote:'caução de R$ 3.000,00',note:'NOTA_INTERNA_PROVA'});
+A.addLink(initial,{id:'l2',attachmentId:'f1',sectionId:'provas'});
+M.transition(initial,'comment','marina',{sectionId:'fatos',text:'Conferir o comprovante.',quote:'caução de R$ 3.000,00',blocking:true});
+M.transition(initial,'saveVersion','marina');
+const before = M.clone(initial), versions = JSON.stringify(initial.versions), approved = JSON.stringify(state.cases.find(c=>c.status==='approved'));
+C.upgrade(state);
+assert.equal(G.finalSections(initial).length,1);assert.equal(initial.sections[0].id,'corpo');
+assert.ok(initial.sections[0].omitTitle);assert.deepEqual(initial.sectionArchive,before.sections);
+assert.equal(JSON.stringify(initial.versions),versions,'historical versions untouched');
+assert.equal(JSON.stringify(state.cases.find(c=>c.status==='approved')),approved,'approved case frozen');
+for(const old of before.sections.filter(s=>s.text.trim())) assert.ok(initial.sections[0].text.includes(old.text));
+const ops=initial.sections[0].delta.ops;
+assert.ok(ops.some(op=>op.attributes?.italic));assert.ok(ops.some(op=>op.attributes?.bold));assert.ok(ops.some(op=>op.attributes?.list==='bullet'));
+assert.ok(!initial.sections[0].text.includes('Dos fundamentos jurídicos'),'empty sections do not force headings');
+assert.equal(initial.comments[0].sectionId,'corpo');assert.equal(initial.comments[0].sourceSectionId,'fatos');
+assert.equal(initial.comments[0].text,before.comments[0].text);assert.equal(initial.comments[0].quote,before.comments[0].quote);
+assert.ok(A.links(initial).every(l=>l.sectionId==='corpo'));assert.equal(A.links(initial)[1].quote,before.sections.find(s=>s.id==='provas').text);assert.equal(A.issues(initial).length,0);
+const serialized=JSON.stringify(state);C.upgrade(state);assert.equal(JSON.stringify(state),serialized,'idempotent reload');
+const fresh=G.create(initial,'ELO-900','initial');C.ensure(fresh);assert.equal(fresh.sections[0].text,'');assert.equal(A.links(fresh).length,0);assert.equal(G.requirements(fresh).find(r=>r.id==='fatos').present,false);assert.equal(M.transition(fresh,'submit','marina').ok,false);
+fresh.sections[0].text='Uma redação livre sem títulos obrigatórios.';delete fresh.sections[0].delta;
+assert.ok(G.requirements(fresh).filter(r=>r.manual).every(r=>!r.done),'text is never automatic legal approval');
+G.review(fresh,'fatos','checked','','marina');assert.ok(G.requirements(fresh).find(r=>r.id==='fatos').done);fresh.sections[0].text+=' Outra frase.';assert.equal(G.requirements(fresh).find(r=>r.id==='fatos').done,false);
+const body=initial.sections[0], original=body.text;body.text=original.replace('caução de R$ 3.000,00','valor a confirmar');assert.match(A.issues(initial)[0].problem,/Trecho alterado/);body.text=original;
+initial.guided.notes='NOTA_INTERNA_ORIENTACAO';
+const projected=G.document(initial);assert.equal(projected.sections.filter(s=>s.id==='corpo').length,1);assert.ok(!JSON.stringify(projected.sections).includes('NOTA_INTERNA'));assert.ok(projected.sections.find(s=>s.id==='corpo').text.includes('Documentos relacionados:'));
+assert.equal(defense.sections.filter(s=>s.scope!=='internal').length,1);assert.ok(defense.sections[0].text.includes('Síntese da demanda'));assert.ok(defense.sections[0].text.includes('Da impugnação aos fatos'));
+const report=state.cases.find(c=>c.id==='ELO-004');report.sections[0].text='';delete report.sections[0].delta;assert.equal(M.transition(report,'submit','marina').ok,false,'internal notes cannot satisfy document content');
+console.log('PASS: continuous migration, rich text, blank drafts, historical preservation, frozen approvals, comments, evidence anchors, idempotence and manual review invalidation.');
+(async()=>{
+
+ const D=require('docx'), ZIP=require('jszip');
+ const pdf=require('./dist/vendor/pdfmake.min.js');pdf.addVirtualFileSystem(require('./dist/vendor/vfs_fonts.js'));
+ const context={window:{EloGuided:G},EloRich:R,Blob};vm.runInNewContext(fs.readFileSync('dist/document-export.js','utf8'),context);
+ const out=path.join(__dirname,'qa/continuous');fs.mkdirSync(out,{recursive:true});
+ for(const item of [initial,defense,fresh]){
+  const stem=item===fresh?'blank-start':item.guided.type;
+  const txt=await (await context.window.EloExport.create(item,'txt','A4')).text();
+  assert.ok(!txt.includes('Texto da peça'));assert.ok(!txt.includes('NOTA_INTERNA'));
+  if(item===initial)assert.equal((txt.match(/Dos fatos/g)||[]).length,1);
+  if(item===fresh)assert.ok(!txt.includes('Dos fatos'),'no forced headings in export');
+  const buffer=await D.Packer.toBuffer(R.docxDocument(item,D,'A4'));
+  const xml=await(await ZIP.loadAsync(buffer)).file('word/document.xml').async('string');assert.ok(!xml.includes('Texto da peça'));assert.ok(!xml.includes('NOTA_INTERNA'));
+  const pdfBuffer=await new Promise(resolve=>pdf.createPdf(R.pdfDefinition(item,'A4')).getBuffer(resolve));
+  fs.writeFileSync(path.join(out,stem+'.docx'),buffer);fs.writeFileSync(path.join(out,stem+'.pdf'),pdfBuffer);fs.writeFileSync(path.join(out,stem+'.txt'),txt);
+ }
+ console.log('PASS: continuous TXT/DOCX/PDF export without duplicate headings or internal notes.');
+})().catch(error=>{console.error(error);process.exitCode=1});

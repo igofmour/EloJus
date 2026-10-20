@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Comece a estruturar o seu escritório na EloJus. Informe o nome do escritório e os dados do advogado responsável.">
+  <meta name="theme-color" content="#111111">
+  <title>Cadastre seu escritório — EloJus</title>
+  <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="login.css?v=0.14.0">
+  <link rel="stylesheet" href="cadastro-escritorio.css?v=0.17.0">
+  <script src="vendor/supabase.js?v=0.14.0" defer></script>
+  <script src="auth-config.js?v=0.14.0" defer></script>
+  <script src="auth.js?v=0.21.0" defer></script>
+  <script src="office-api.js?v=0.19.0" defer></script>
+  <script src="cadastro-escritorio.js?v=0.19.0" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o cadastro</a>
+  <div class="office-layout">
+    <aside class="office-brand" aria-label="EloJus">
+      <a class="brand" href="apresentacao.html" aria-label="EloJus — apresentação"><img src="assets/elojus-logo-v2-white.svg" width="174" height="46" alt="EloJus"><span>O CONTEXTO CONECTA.</span></a>
+      <div class="office-brand-copy">
+        <p class="eyebrow">SEU ESCRITÓRIO NA ELOJUS</p>
+        <h2>O primeiro elo<br>do seu escritório.</h2>
+        <p>Comece por quem dá direção ao trabalho.<br>Depois, construímos o espaço da sua equipe.</p>
+        <ol class="office-steps" aria-label="Etapas do cadastro">
+          <li id="detailsStep" aria-current="step"><span class="step-count" aria-hidden="true">01</span><div><strong>Dados do escritório</strong><span>O escritório e o advogado responsável.</span></div></li>
+          <li id="reviewStep"><span class="step-count" aria-hidden="true">02</span><div><strong>Conferência e cadastro</strong><span>Revise e vincule o escritório à sua conta.</span></div></li>
+        </ol>
+      </div>
+      <div class="office-brand-footer"><span>TRABALHO JURÍDICO EM CONJUNTO.</span><span>© EloJus</span></div>
+    </aside>
+
+    <main class="office-main" id="conteudo">
+      <header class="office-top"><a href="apresentacao.html"><span aria-hidden="true">←</span> Voltar à apresentação</a><span><a id="accountLink" href="login.html?next=%23cadastro-escritorio">Entrar <span aria-hidden="true">↗</span></a></span></header>
+      <div class="office-content">
+        <div class="form-heading"><p class="eyebrow">CADASTRO DO ESCRITÓRIO</p><span class="form-step" id="stepLabel">01 / 02</span></div>
+        <section id="accountGate" aria-labelledby="accountTitle"><h1 id="accountTitle" tabindex="-1">Seu escritório<br>começa aqui.</h1><p id="accountMessage" class="office-intro" role="status">Verificando sua conta…</p><p id="accountError" class="form-error" role="alert" hidden></p><div id="accountActions" hidden><a class="submit-button office-submit" href="login.html?reason=session&amp;next=%23cadastro-escritorio"><span>Entrar para continuar</span><span aria-hidden="true">→</span></a><p class="first-access">Ainda não tem conta? <a href="cadastro.html?next=%23cadastro-escritorio">Criar meu acesso</a></p></div><button id="retryAccount" type="button" class="text-button" hidden>Tentar novamente</button><noscript><p class="inline-note">Ative JavaScript para verificar sua conta e cadastrar o escritório.</p></noscript></section>
+        <p id="accountIdentity" class="account-identity" hidden></p>
+        <section id="officeDetails" aria-labelledby="officeTitle" hidden>
+          <h1 id="officeTitle" tabindex="-1">Seu escritório<br>começa aqui.</h1>
+          <p class="office-intro">Conte um pouco sobre o escritório e quem será o responsável por ele na EloJus.</p>
+          <p class="required-note">Todos os campos são obrigatórios, exceto o telefone.</p>
+          <form id="officeForm" novalidate>
+            <fieldset>
+              <legend><span>01</span> O escritório</legend>
+              <div class="field"><label for="officeName">Nome do escritório</label><input id="officeName" name="officeName" autocomplete="organization" maxlength="160" placeholder="Ex.: Almeida &amp; Costa Advocacia" required aria-describedby="officeNameError"><span id="officeNameError" class="field-error" hidden></span></div>
+            </fieldset>
+            <fieldset>
+              <legend><span>02</span> Advogado responsável</legend>
+              <div class="field"><label for="responsibleName">Nome completo</label><input id="responsibleName" name="responsibleName" autocomplete="name" maxlength="120" placeholder="Nome do advogado responsável" required aria-describedby="responsibleNameError"><span id="responsibleNameError" class="field-error" hidden></span></div>
+              <div class="field-row">
+                <div class="field"><label for="responsibleEmail">E-mail profissional</label><input id="responsibleEmail" name="responsibleEmail" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" maxlength="254" placeholder="voce@escritorio.com.br" required aria-describedby="responsibleEmailError"><span id="responsibleEmailError" class="field-error" hidden></span></div>
+                <div class="field"><label for="responsiblePhone">Telefone <span class="optional">(opcional)</span></label><input id="responsiblePhone" name="responsiblePhone" type="tel" autocomplete="tel" maxlength="24" placeholder="(11) 99999-9999" aria-describedby="responsiblePhoneError"><span id="responsiblePhoneError" class="field-error" hidden></span></div>
+              </div>
+              <div class="field-row oab-row">
+                <div class="field"><label for="oabNumber">Número da OAB</label><input id="oabNumber" name="oabNumber" type="text" maxlength="20" placeholder="Ex.: 123456" required aria-describedby="oabHint oabNumberError"><span class="field-hint" id="oabHint">Informe a inscrição, sem a UF.</span><span id="oabNumberError" class="field-error" hidden></span></div>
+                <div class="field"><label for="oabState">UF da OAB</label><select id="oabState" name="oabState" required aria-describedby="oabStateError"><option value="">Selecione</option><option value="AC">AC — Acre</option><option value="AL">AL — Alagoas</option><option value="AP">AP — Amapá</option><option value="AM">AM — Amazonas</option><option value="BA">BA — Bahia</option><option value="CE">CE — Ceará</option><option value="DF">DF — Distrito Federal</option><option value="ES">ES — Espírito Santo</option><option value="GO">GO — Goiás</option><option value="MA">MA — Maranhão</option><option value="MT">MT — Mato Grosso</option><option value="MS">MS — Mato Grosso do Sul</option><option value="MG">MG — Minas Gerais</option><option value="PA">PA — Pará</option><option value="PB">PB — Paraíba</option><option value="PR">PR — Paraná</option><option value="PE">PE — Pernambuco</option><option value="PI">PI — Piauí</option><option value="RJ">RJ — Rio de Janeiro</option><option value="RN">RN — Rio Grande do Norte</option><option value="RS">RS — Rio Grande do Sul</option><option value="RO">RO — Rondônia</option><option value="RR">RR — Roraima</option><option value="SC">SC — Santa Catarina</option><option value="SP">SP — São Paulo</option><option value="SE">SE — Sergipe</option><option value="TO">TO — Tocantins</option></select><span id="oabStateError" class="field-error" hidden></span></div>
+              </div>
+            </fieldset>
+            <p id="officeError" class="form-error" role="alert" hidden></p>
+            <button class="submit-button office-submit" type="submit" id="reviewButton" disabled><span>Revisar dados</span><span aria-hidden="true">→</span></button>
+            <p class="preview-note">O responsável será vinculado à sua conta. Você confere todos os dados antes de salvar.</p>
+          </form>
+        </section>
+
+        <section id="officeReview" aria-labelledby="reviewTitle" hidden>
+          <h1 id="reviewTitle" tabindex="-1">Tudo começa<br>com estes dados.</h1>
+          <p class="office-intro" id="reviewIntro">Confira as informações antes de cadastrar seu escritório.</p>
+          <div class="office-summary"><p class="eyebrow">O ESCRITÓRIO</p><h2 id="summaryOffice"></h2><div class="summary-divider"></div><p class="eyebrow">ADVOGADO RESPONSÁVEL</p><dl><div><dt>Nome completo</dt><dd id="summaryName"></dd></div><div><dt>E-mail profissional</dt><dd id="summaryEmail"></dd></div><div><dt>Telefone</dt><dd id="summaryPhone"></dd></div><div><dt>OAB / UF</dt><dd id="summaryOab"></dd></div></dl></div>
+          <div class="next-step-note"><span aria-hidden="true" id="saveNoteIcon">↗</span><div><h3 id="saveNoteTitle">Um escritório. Sua conta responsável.</h3><p id="saveNoteText">Ao cadastrar, estas informações serão salvas e vinculadas à conta identificada acima. Esta etapa não realiza contratação nem cobrança.</p></div></div>
+          <p id="saveError" class="form-error" role="alert" tabindex="-1" hidden></p>
+          <div id="saveActions"><button type="button" class="submit-button office-submit" id="saveOffice"><span>Cadastrar escritório</span><span aria-hidden="true">→</span></button><button type="button" class="edit-details" id="editDetails">← Voltar e editar</button></div>
+          <a id="relogin" class="submit-button office-submit" href="login.html?reason=session&amp;next=%23cadastro-escritorio" hidden><span>Entrar novamente</span><span aria-hidden="true">→</span></a>
+          <a id="openWorkspace" class="submit-button office-submit" href="planos.html" hidden><span>Escolher plano</span><span aria-hidden="true">→</span></a>
+          <p class="review-back"><a href="apresentacao.html">Voltar à apresentação</a></p>
+        </section>
+      </div>
+      <footer class="office-footer"><span>Entre uma pessoa e o próximo passo.</span><img src="assets/elojus-symbol-v2.svg" width="20" height="20" alt=""></footer>
+    </main>
+  </div>
+</body>
+</html>

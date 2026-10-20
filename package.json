@@ -1,0 +1,28 @@
+{
+  "name": "elojus",
+  "version": "0.21.0",
+  "private": true,
+  "scripts": {
+    "vendor:auth": "node tools/vendor-auth.cjs",
+    "test:auth": "node --test test-auth.cjs",
+    "test:office": "node --test test-office.cjs",
+    "test:shared": "node --test test-shared.cjs",
+    "test": "node --test test-auth.cjs test-office.cjs test-shared.cjs test-config.cjs test-workspace.cjs test-rich-document.cjs test-guided.cjs test-attachments.cjs test-continuous.cjs test-full-document.cjs",
+    "test:exports": "node test-rich-document.cjs --exports",
+    "test:legacy": "node --test test-logic.cjs test-demo-accounts.cjs",
+    "check:repository": "node tools/check-repository.cjs",
+    "configure:auth": "node --env-file=.env tools/configure-auth.cjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.118.0"
+  },
+  "description": "EloJus — colaboração jurídica, elaboração e revisão por escritório.",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "devDependencies": {
+    "docx": "9.6.1",
+    "jszip": "3.10.1"
+  }
+}

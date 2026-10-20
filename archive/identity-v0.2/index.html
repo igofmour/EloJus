@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="EloJus: contexto, elaboração e revisão no mesmo lugar. Protótipo com dados fictícios para demonstrar a colaboração entre advogado e estagiário.">
+  <meta name="theme-color" content="#111111">
+  <title>EloJus — trabalho jurídico em conjunto</title>
+  <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="identity.css?v=0.2-logo">
+</head>
+<body>
+  <a class="skip-link" href="#app">Ir para o conteúdo</a>
+  <aside class="sidebar">
+    <a class="brand" href="#inicio" data-page="overview" aria-label="EloJus — visão geral">
+      <img class="brand-lockup" src="assets/elojus-logo-v2-white.svg" alt="EloJus" width="176" height="43">
+      <small>TRABALHO JURÍDICO EM CONJUNTO</small>
+    </a>
+    <div class="workspace"><span class="avatar">EA</span><div>Escritório Aurora<small>Ambiente de demonstração</small></div></div>
+    <p class="navlabel">ESPAÇO DE TRABALHO</p>
+    <nav aria-label="Navegação principal">
+      <button data-page="overview" class="nav active"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M10 4v16M10 10h10"/></svg><span>Visão geral</span></button>
+      <button data-page="case" class="nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7V5a1 1 0 0 1 1-1h5l2 3h7a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/><path d="M8 12h8M8 16h5"/></svg><span>Caso demonstrativo</span></button>
+      <button data-page="draft" class="nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 4 5 5M5 15 16 4a2 2 0 0 1 3 0l1 1a2 2 0 0 1 0 3L9 19l-5 1Z"/></svg><span>Área de elaboração</span></button>
+      <button data-page="history" class="nav"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 8 0 1 1 1 5M4 4v7h7M12 7v5l3 2"/></svg><span>Histórico e versões</span></button>
+    </nav>
+    <div class="sidebottom"><div class="smalltag">O CONTEXTO CONECTA.</div><p>Entre uma pessoa<br>e o próximo passo.</p><button class="textbtn" id="reset">↺ Reiniciar demonstração</button><a class="brand-guide-link" href="identidade.html">Identidade visual ↗</a></div>
+  </aside>
+  <div class="shell">
+    <header><div class="breadcrumb">Seu escritório <span>/</span> <b id="crumb">Visão geral</b></div><div class="rolewrap"><label for="role">SIMULAR VISÃO</label><select id="role" aria-label="Simular visão"><option value="lawyer">Advogada · Marina</option><option value="intern">Estagiário · Lucas</option></select><span class="avatar user">MA</span></div></header>
+    <div class="prototype"><div><span class="prototype-dot" aria-hidden="true"></span>Protótipo · dados fictícios · sem validação jurídica</div><span>Troca de visão é uma simulação, não autenticação.</span></div>
+    <main id="app" tabindex="-1"></main>
+    <footer>Salvo somente neste navegador (localStorage). Não insira dados reais ou sigilosos. Sem envio de arquivos, IA externa ou protocolo judicial.</footer>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="dialog"></dialog>
+  <script src="app.js"></script>
+</body>
+</html>

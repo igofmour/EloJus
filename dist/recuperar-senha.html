@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Recupere seu acesso ao espaço de trabalho EloJus.">
+  <meta name="theme-color" content="#111111">
+  <title>Recuperar senha — EloJus</title>
+  <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="login.css?v=0.14.0">
+  <script src="vendor/supabase.js?v=0.14.0" defer></script>
+  <script src="auth-config.js?v=0.14.0" defer></script>
+  <script src="auth.js?v=0.21.0" defer></script>
+  <script src="auth-form.js?v=0.14.0" defer></script>
+  <script src="recuperar-senha.js?v=0.14.0" defer></script>
+</head>
+<body>
+  <a class="skip-link" id="recoverySkip" href="#recoveryEmail">Ir para o formulário</a>
+  <div class="login-layout">
+    <aside class="brand-panel" aria-label="EloJus, trabalho jurídico em conjunto">
+      <a class="brand" href="login.html" data-login-link aria-label="EloJus — acesso"><img src="assets/elojus-logo-v2-white.svg" width="174" height="45" alt="EloJus"><span>TRABALHO JURÍDICO EM CONJUNTO</span></a>
+      <div class="brand-message"><span class="eyebrow">O CONTEXTO CONECTA.</span><h2>Entre uma pessoa<br>e o próximo passo.</h2><p>Retome seu acesso e dê continuidade<br class="desktop-break"> ao trabalho que conecta sua equipe.</p><div class="brand-rule"></div><p class="brand-caption">Da primeira orientação<br>à última revisão.</p></div>
+      <img class="brand-watermark" src="assets/elojus-symbol-v2-white.svg" alt="" aria-hidden="true">
+      <div class="brand-footer"><span>ELOJUS</span><span>Um contexto compartilhado.</span></div>
+    </aside>
+    <main class="access-panel">
+      <div class="access-top"><span>RECUPERAÇÃO DE ACESSO</span><span class="prototype-badge">Sua conta</span></div>
+      <div class="login-content recovery-content">
+        <section id="recoveryEntry" aria-labelledby="recoveryTitle">
+          <div class="welcome-mark" aria-hidden="true"><svg class="recovery-icon" viewBox="0 0 24 24"><circle cx="8" cy="9" r="4"/><path d="m11 12 9 9m-3-3 3-3m-6 0 3-3"/></svg></div>
+          <h1 id="recoveryTitle">Recupere seu acesso.</h1>
+          <p class="login-intro">Esqueceu sua senha? Informe o e-mail usado no cadastro para começar.</p>
+          <p class="inline-note" data-email-setup>Envio de e-mails em configuração. Por enquanto, apenas membros da organização podem receber os links.</p>
+          <form id="recoveryForm" novalidate>
+            <div class="field"><label for="recoveryEmail">E-mail</label><input id="recoveryEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="254" placeholder="voce@escritorio.com.br" required aria-describedby="recoveryEmailError"><span id="recoveryEmailError" class="field-error" hidden></span></div>
+            <p id="recoveryError" class="form-error" role="alert" tabindex="-1" hidden></p>
+            <button class="submit-button" type="submit"><span>Enviar link de recuperação</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></button>
+          </form>
+          <p class="first-access">Lembrou sua senha? <a href="login.html" data-login-link>Voltar ao login</a></p>
+          <div class="signup-note"><span class="demo-label">SOBRE ESTA ETAPA</span><p>Você receberá um link temporário para definir sua nova senha. Abra-o neste mesmo navegador.</p></div>
+        </section>
+        <section id="recoveryPreview" aria-labelledby="recoveryPreviewTitle" hidden>
+          <div class="welcome-mark success-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></div>
+          <h1 id="recoveryPreviewTitle" tabindex="-1">Confira seu e-mail.</h1>
+          <p class="login-intro">Se houver uma conta com este e-mail, você receberá as instruções para recuperar seu acesso.</p>
+          <div class="recovery-address"><span class="demo-label">E-MAIL INFORMADO</span><strong id="recoveryAddress"></strong><button id="changeRecoveryEmail" class="text-button" type="button">Corrigir e-mail</button></div>
+          <p class="inline-note">Verifique sua caixa de entrada e o spam. O link é temporário e só pode ser usado uma vez.</p>
+          <a class="submit-button" href="login.html" data-login-link><span>Voltar ao login</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a>
+
+        </section>
+        <noscript><p class="inline-note">Ative o JavaScript do navegador para acessar sua conta. Você pode voltar ao login pelo link acima.</p></noscript>
+      </div>
+      <footer class="access-footer"><span>© EloJus</span><span>Seu acesso ao trabalho em conjunto.</span></footer>
+    </main>
+  </div>
+</body>
+</html>

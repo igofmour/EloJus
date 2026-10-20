@@ -1,0 +1,6 @@
+EloJus — wallpaper centralizado
+PNG: 1920 x 1080 pixels, sRGB, sem perdas.
+Fundo: preto puro (#000000). Logo: branco, centralizado nos dois eixos.
+Composição estudada com imagegen; acabamento final renderizado diretamente dos paths da marca SVG original, com supersampling 4x e redução Lanczos. Sem ampliação da imagem anterior.
+SVG original: EloJus-codigo/EloJus/dist/assets/elojus-logo-v2-white.svg
+Centro visual validado: {"x":960,"y":540}
