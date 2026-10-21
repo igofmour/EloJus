@@ -1,28 +1,50 @@
 # Roadmap gerencial
 
-Data-base: 19/10/2026. Prioridades propostas; sem prazos, custos ou responsáveis atribuídos automaticamente.
+Atualizado em **20/10/2026**, versão **0.25.0**. Objetivo: reduzir busca de contexto, interrupções e retrabalho entre quem elabora e quem revisa. Prioridades propostas, sem contratar serviços ou atribuir prazos e responsáveis automaticamente.
 
-| ID | Prioridade | Entrega | Estado | Critério de aceite |
-| --- | --- | --- | --- | --- |
-| EJ-01 | P0 | SMTP e domínio remetente | Pendente | Cadastro, confirmação e recuperação para contas externas; falhas tratadas |
-| EJ-02 | P0 | Piloto com duas pessoas | Pendente | Duas contas confirmadas testam convite, atribuição, edição, conflito, revisão e revogação |
-| EJ-03 | P0 | Anexos compartilhados | Pendente | Storage privado, acesso por escritório/caso, limites e exclusão |
-| EJ-04 | P0 | Operação e recuperação | Pendente | Homologação separada, HTTPS, monitoramento e restauração de backup ensaiada |
-| EJ-05 | P0 | Privacidade e termos | Pendente | Revisão profissional de tratamento de dados, retenção, termos e responsabilidades |
-| EJ-06 | P1 | Contratação comercial | Prévia | Preços e condições definidos; cobrança autorizada em etapa própria |
-| EJ-07 | P1 | Governança da equipe | Parcial | Revisão de transferência de administração, desligamento e acesso por caso |
-| EJ-08 | P1 | Qualidade de uso | Parcial | Acessibilidade, celular, documentos longos e E2E atualizado |
-| EJ-09 | P1 | Auditoria operacional | Parcial | Eventos, retenção e logs sem credenciais ou texto sigiloso |
-| EJ-10 | P2 | Coedição e avisos | Planejado | Atualizações remotas comunicadas sem perda de rascunho |
+## Situação atual
 
-## Rotina
+| Frente | Entrega disponível | Validação e limite |
+| --- | --- | --- |
+| Equipe e acesso | Cadastro profissional, convites, gestão e isolamento por atribuição | Regras validadas no banco; duas contas reais pendentes |
+| Elaboração | Editor A4, rascunhos recuperáveis e anexos privados | Digitação, persistência e upload/download conferidos |
+| Entrega | Editor ou Word/PDF/TXT como principal, resumo e rodadas | Original preservado; fluxos por papel testados |
+| Revisão | Revisor, retorno combinado, ajustes, respostas, comparação e aprovação | Ciclo exercitado no banco e na prévia com Sara |
+| Organização | Filtros por ação, conversa por assunto e atualizações por peça | Avisos opcionais exigem aplicação aberta |
+| Indicadores | Espera, decisão, ciclo, esforço manual e contatos externos | Sem conclusão sobre produtividade antes de observar uma dupla |
+| E-mails de acesso | Modelos e configuração SMTP preparados | Credencial, salvamento e entrega real pendentes |
 
-Uma issue por entrega/defeito, com problema, escopo e critério de aceite. Estados sugeridos: A fazer → Em andamento → Em revisão → Concluído. Registrar evidência antes de concluir. Os IDs da tabela não são números de issues do GitHub.
+O esquema v0.25 está ativo no Supabase. [Evidências e limites dos testes](TESTES.md). Não reaplicar arquivos de referência SQL sobre o banco já migrado.
 
-Mudanças por branch curta e pull request com impacto, testes e eventual migração. Uma tela pronta não conclui sua funcionalidade. O quadro externo do GitHub Projects ainda não foi criado.
+## Próximas ações, em ordem
 
-## Entrada em piloto
+| Ordem / ID | Prioridade | Ação | Critério de conclusão |
+| --- | --- | --- | --- |
+| 1 · EJ-01 | P0 | Concluir SMTP de teste e preparar envio de produção | Confirmação e recuperação recebidas em endereços externos; senha anterior e link reutilizado recusados. Para lançamento: serviço transacional e domínio autenticado |
+| 2 · EJ-02 | P0 | Validar duas contas reais | Advogado e estagiário completam convite, atribuição, anexo, duas rodadas, conflito, aprovação e revogação em sessões independentes |
+| 3 · EJ-04 | P0 | Preparar operação e recuperação | Homologação separada, HTTPS, monitoramento, backup de banco/arquivos e restauração ensaiada |
+| 4 · EJ-05 | P0 | Definir tratamento dos dados e atendimento | Termos, privacidade, retenção, exclusão e responsabilidades revisados profissionalmente |
+| 5 · EJ-11 | P0 | Observar uma dupla em piloto acompanhado | Referência anterior e 10 a 20 peças comparáveis, registrando espera, tempo ativo, devoluções, contatos externos e qualidade |
+| 6 · EJ-08 | P1 | Ampliar qualidade de uso | E2E atualizado, acessibilidade, celular, documentos longos e carga com evidência de aceite |
+| 7 · EJ-03 | P1 | Completar ciclo de vida dos anexos | Retenção/exclusão, recuperação e perda de acesso. Upload/download e isolamento já ativos |
+| 8 · EJ-07 | P1 | Completar governança da equipe | Transferência de administração e desligamento com histórico e acesso revogado verificados |
+| 9 · EJ-09 | P1 | Completar auditoria operacional | Eventos, retenção, acesso e logs sem credenciais ou conteúdo sigiloso |
+| 10 · EJ-06 | P1 | Preparar contratação comercial | Preços, condições, checkout e cancelamento validados em etapa própria; cobrança permanece desativada |
+| 11 · EJ-10 | P2 | Avaliar coedição e novos avisos | Necessidade confirmada no piloto. Não há coedição de caracteres nem avisos com navegador fechado |
 
-Concluir EJ-01 a EJ-05 ou delimitar formalmente o escopo com os responsáveis. Validar isolamento entre escritórios, remoção de membro, restauração e atendimento a incidentes. Consultar [pendências de testes](TESTES.md).
+Convites da equipe são compartilhados por link. SMTP de autenticação não ativa envio automático desses convites. A prévia Sara ajuda na demonstração, mas não conclui EJ-02.
 
-Cobrança, tribunais e IA dependem de decisões próprias; não são ativados pela publicação.
+## Como avaliar o piloto
+
+1. Combinar janelas de revisão e prazo interno de retorno; registrar dúvidas no assunto da peça.
+2. Comparar peças de complexidade semelhante, usando a rotina anterior como referência.
+3. Separar espera por resposta de tempo efetivamente gasto redigindo ou revisando.
+4. Registrar contatos fora da EloJus, retrabalho e qualidade. Definir metas numéricas após medir a referência.
+
+## Rotina de gestão
+
+Uma issue por entrega ou defeito, com problema, escopo, critério de aceite e evidência. Estados sugeridos: **A fazer → Em andamento → Em revisão → Concluído**. Os IDs acima são referências internas, não números de issues já criadas.
+
+Usar branches curtas e PRs com impacto, testes e eventual migração. CI aprovada não equivale a implantação ou aceite operacional. GitHub Projects e proteção de branch não são configurados por estes documentos.
+
+Antes da abertura comercial, concluir as dependências P0 ou delimitar formalmente o piloto com os responsáveis. Cobrança, tribunais e IA dependem de decisões próprias.

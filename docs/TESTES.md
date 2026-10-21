@@ -1,31 +1,71 @@
 # Testes e evidências
 
+Estado consolidado em **20/10/2026**, versão **0.25.0**. Os testes locais foram repetidos antes da atualização do repositório. As evidências de Supabase e navegador vêm das etapas de implementação; não são resultados da CI nem certificação de segurança.
+
+## Verificação local atual
+
+| Verificação | Resultado | Cobertura |
+| --- | --- | --- |
+| pnpm test | 72 testes aprovados | Auth, equipe, permissões da interface, salvamento/conflito, documentos, arquivos, revisão, rascunhos, avisos e métricas |
+| pnpm test:database | 241 verificações aprovadas | PostgreSQL local: 44 de escritório, 36 de equipe, 42 de peças/anexos, 45 do roteiro v24, 49 de revisão e 25 de entrega por arquivo |
+| pnpm test:exports | Aprovado | DOCX e PDF com formatação e documento de várias páginas |
+| pnpm check:repository | Sem padrões conhecidos de credenciais | Arquivos versionados e novos; revisão manual complementar |
+| Modelos de e-mail | Conferidos localmente | Identidade preta e branca, links gerados pelo Supabase e ausência de scripts/rastreadores externos |
+
 ~~~sh
 pnpm install --frozen-lockfile
 pnpm test
+pnpm test:database
 pnpm test:exports
 pnpm check:repository
 ~~~
 
-Testes locais simulam Auth/adaptadores, validam regras, concorrência e exportações fictícias. docx e jszip são dependências fixadas no projeto. Saídas de exportação em qa são ignoradas pelo Git.
+A CI executa as quatro verificações pnpm sem credenciais, acesso ao Supabase, envio de e-mail ou implantação. O scanner é preventivo e não identifica todo possível dado pessoal ou segredo. Exportações e evidências visuais geradas permanecem fora do Git.
 
-A CI executa a suíte local e verificação preventiva sem credenciais ou acesso ao Supabase. O scanner detecta padrões conhecidos; não garante ausência de todo segredo ou dado pessoal.
+## Supabase: evidências já obtidas
 
-## Evidências anteriores da v0.21
+- Esquema v0.25 ativo; migrações registradas em [database/README.md](../database/README.md).
+- 45 verificações de revisão e 25 de entrega por arquivo executadas no banco real, em transações encerradas com ROLLBACK. Identidades e escritórios fictícios não permaneceram no banco.
+- Cobertura: identidade ausente/anônima, isolamento entre escritórios e por atribuição, revisor designado, ausência de autorrevisão, reatribuição, revogação e impedimento de escrita durante revisão/após aprovação.
+- Entrega idempotente com resumo, versões e rodadas; ajuste impeditivo, devolução, atendimento pelo autor, resolução pelo revisor e aprovação em segunda rodada.
+- Peça principal vinculada ao arquivo original; comentários, versões e aprovação preservam essa referência. Testes SQL de arquivo usam metadados fictícios e não representam upload HTTP.
+- Upload/download HTTP real de TXT, DOCX e PDF pela conta atual, em peça fictícia: SHA-256 idêntico aos originais e persistência após recarregar. Sete peças e quatro anexos existentes foram preservados na atualização v0.25.
+- Inspeções anteriores mantiveram pendentes os avisos de proteção contra senhas vazadas e de políticas SELECT sobrepostas em offices. Nenhum upgrade foi contratado.
 
-- 44 verificações SQL de autorização passaram no Supabase com fixtures temporárias e ROLLBACK.
-- Navegador: caso, persistência, comentário, versão, exportação e conflito entre duas abas da mesma conta.
-- O proprietário confirmou cadastro, redefinição e entrada com nova senha.
+**Limite:** papéis autenticados temporários no SQL não equivalem a duas contas confirmadas entrando pelo Supabase Auth. O teste com duas sessões reais continua pendente.
 
-São registros da implementação em desenvolvimento, não resultados da CI nem certificação de segurança.
+## Navegador: evidências já obtidas
 
-## Pendências
+| Cenário | Evidência | Ambiente |
+| --- | --- | --- |
+| Criação e salvamento | Abertura direta do editor, texto e conversa preservados após recarregar | Conta atual, aplicação real na porta 8768 |
+| Editor A4 | Cursor em peça vazia, digitação/limpeza nos quatro níveis de zoom, formatação, desfazer/refazer e paginação | Editor e documentos fictícios |
+| Comentários | Escrita e desfazer preservados; resolução/reabertura; conversa persistente | Aplicação real e prévia local |
+| Conflito | Sobrescrita recusada, rascunho mantido e carregamento explícito da versão remota | Abas e prévia de colaboração |
+| Sara e administrador | Criação atribuída à Sara, lista restrita e salvamento antes de trocar a visão | PostgreSQL local, atualmente na porta 8772 |
+| Ciclo por arquivo | Word entregue, ajuste impeditivo, segunda rodada em PDF, referência ao Word e aprovação pelo revisor | Prévia com dois papéis fictícios |
+| Acesso | Cadastro, recuperação e entrada com nova senha confirmados pelo responsável em etapa anterior | Uma conta real |
+| E-mails | Modelos conferidos na prévia; Auth consultado com confirmação obrigatória | Prévia na porta 8773; envio ainda não validado |
 
-- Duas contas reais confirmadas em sessões independentes.
-- SMTP público, rejeição da senha anterior e reutilização do link real de recuperação.
-- Restauração, carga, produção, acessibilidade completa e E2E automatizado atualizado.
-- Revisão dos avisos de senha vazada e políticas SELECT sobrepostas de offices.
+Avisos nativos permanecem opcionais e desligados por padrão. Agrupamento e intervalos passaram em testes locais; não foi concedida permissão de notificação no navegador do usuário. Não há avisos com a aplicação fechada.
 
-qa/shared-office-policies.sql é o roteiro atual de autorização, para homologação com privilégios de fixtures. Não fornecer chave administrativa ao navegador. qa/legacy guarda verificações de esquemas anteriores.
+## Como escolher o roteiro
 
-test-demo.cjs é um roteiro Playwright histórico na porta 8765, não o E2E atual. pnpm test:legacy executa somente a lógica histórica sem navegador.
+- **qa/local-postgres.cjs:** aplica referências em PostgreSQL/WASM descartável, verificando contratos na ordem das versões.
+- **qa/review-workflow.cjs e qa/file-review.cjs:** instâncias locais independentes para revisão e entrega por arquivo.
+- **qa/review-workflow-remote.sql e qa/file-review-remote.sql:** homologação remota com privilégios de fixtures e rollback; total de 70 verificações. Não são migrações.
+- **qa/case-workflow-policies.sql:** inclui objetos fictícios de Storage; exclusivo do banco local.
+- **qa/shared-office-policies.sql:** contrato anterior à revisão v0.24; não executar diretamente sobre o esquema atual.
+- **qa/workflow-preview.cjs:** interface com papéis fictícios, arquivos e banco em memória, somente loopback. Não serve configuração de Auth nem deve ser publicado.
+- **test-demo.cjs, qa/legacy e pnpm test:legacy:** referências históricas, não o E2E atual.
+
+## Pendências para aceite operacional
+
+1. Concluir SMTP e comprovar recebimento da confirmação/recuperação em endereços externos.
+2. Validar nova senha, rejeição da antiga e impossibilidade de reutilizar o link real de recuperação.
+3. Duas contas confirmadas: convite por link, atribuição, anexos, ajustes, aprovação, conflito e revogação em sessões independentes.
+4. Ensaiar restauração de banco e arquivos; validar carga, produção HTTPS e acompanhamento de falhas.
+5. Ampliar acessibilidade, celular e automação E2E atualizada.
+6. Observar a dupla e medir ganho de tempo com referência comparável, sem confundir espera com esforço ativo.
+
+Roteiro de aceite em [preparação da entrega](PREPARACAO-ENTREGA.md); prioridades em [roadmap](ROADMAP.md).

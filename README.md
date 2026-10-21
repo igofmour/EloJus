@@ -4,7 +4,14 @@
 
 Plataforma de trabalho para escritórios de advocacia: organizar casos, distribuir tarefas, elaborar minutas e revisar em equipe, com identidade visual em preto e branco.
 
-**Versão 0.21.0 · desenvolvimento / validação de piloto.** Autenticação e colaboração usam Supabase. Contratação é uma prévia sem cobrança. O produto ainda não está declarado pronto para processos reais.
+**Versão 0.25.0 · validação para piloto.** O esquema v0.25 está ativo no Supabase desde 20/10/2026. Autenticação, anexos e colaboração foram conferidos com a conta atual; permissões e revisão entre papéis passaram em testes no banco real. Ainda faltam SMTP validado e o fluxo com duas contas reais. Contratação continua sem cobrança.
+
+## Leitura rápida
+
+- **O que mudou:** [histórico da versão](CHANGELOG.md).
+- **O que falta e em qual ordem:** [roadmap gerencial](docs/ROADMAP.md).
+- **Como operar e validar a entrega:** [plano de entrega](docs/PREPARACAO-ENTREGA.md) e [evidências dos testes](docs/TESTES.md).
+- **Como configurar o acesso e os e-mails:** [autenticação e SMTP](AUTH-SETUP.md).
 
 ## Funcionalidades e estado
 
@@ -14,10 +21,18 @@ Plataforma de trabalho para escritórios de advocacia: organizar casos, distribu
 | Escritório e responsável | Cadastro salvo e vinculado à conta autenticada |
 | Planos | Essencial, Equipe e Personalizado; escolha persistida, preços a definir |
 | Contratação | Resumo do escritório e plano, sem pagamento |
-| Equipe | Convites por link com validade de 7 dias e permissões no banco |
+| Equipe | Cadastro de advogados e estagiários pelo administrador, OAB/UF, convites, edição e desativação com permissões no banco |
 | Casos e minutas | Supabase, versões, comentários e fluxo de revisão |
 | Editor | A4, margens, quebras visíveis, Word e PDF |
-| Anexos | Disponíveis na demonstração local; compartilhamento pendente |
+| Peças do estagiário e anexos privados | Ativos; upload/download real conferido e permissões testadas no banco |
+| Central de revisão | Filtros, ordenação por prazo/prioridade e consulta de todas as peças acessíveis; compatível com o banco anterior |
+| Revisor, rodadas e conversa por assunto | Ativos; fluxo de ajustes/aprovação e isolamento testados no banco real |
+| Comparação e indicadores | Ativos; indicadores aguardam observações de uma dupla real |
+| Entrega por arquivo | Word, PDF ou TXT como peça principal; cada rodada preserva o original |
+| Rascunhos e avisos | Recuperação local por conta/peça e avisos opcionais com a aplicação aberta |
+| E-mails de acesso | Modelos prontos em português; SMTP e entrega real ainda pendentes |
+
+Consulte o [plano de entrega e operação](docs/PREPARACAO-ENTREGA.md) para os fluxos novos, evidências de validação e dependências antes da abertura comercial.
 
 ## Executar localmente
 
@@ -38,6 +53,10 @@ Abra [a apresentação local](http://127.0.0.1:8768/apresentacao.html). O comand
 
 Páginas públicas podem ser visualizadas sem configurar Supabase. Login e escritório compartilhado exigem configuração válida.
 
+Para testar a v0.25 com perfis fictícios e PostgreSQL local em memória, use `pnpm preview:workflow` e abra [a prévia do estagiário](http://127.0.0.1:8769/index.html?persona=intern#casos). Use `?persona=admin#revisoes` para a central do advogado. Outra porta: `node qa/workflow-preview.cjs 8770`. Esse servidor é exclusivo de QA, descarta os dados ao encerrar e não deve ser publicado.
+
+Para a demonstração **Sara · estagiária**, execute `pnpm preview:sara` e mantenha o servidor principal na porta 8768. Na conta de Administrador local, clique em **Testar como Sara**. A prévia abre na porta 8772 e permite alternar entre Administrador e Sara e voltar ao escritório. Não exige e-mail ou senha e não altera a sessão nem os dados do Supabase. Usa usuários e casos fictícios, com as mesmas regras SQL de acesso; documentos e alterações duram apenas enquanto o processo estiver aberto. A porta 8772 é exclusiva desse ambiente, ligado somente a `127.0.0.1`; ele não deve ser publicado. O atalho não aparece em domínios publicados.
+
 ## Organização
 
 | Caminho | Conteúdo |
@@ -46,6 +65,7 @@ Páginas públicas podem ser visualizadas sem configurar Supabase. Login e escri
 | dist/assets/ | Identidade, fontes e licenças |
 | dist/vendor/ | Bibliotecas locais fixadas, manifestos e licenças |
 | database/ | Esquema consolidado, sem registros reais |
+| emails/ | Modelos de confirmação e recuperação; sem credenciais ou links reais |
 | qa/ | Testes SQL; exportações geradas ficam ignoradas |
 | test-*.cjs | Testes Node de regras, autenticação e documentos |
 | tools/ | Configuração, validação e utilitários |
@@ -57,6 +77,8 @@ Páginas públicas podem ser visualizadas sem configurar Supabase. Login e escri
 ## Gestão e desenvolvimento
 
 - [Arquitetura](docs/ARQUITETURA.md)
+- [Cadastro e gestão da equipe](docs/EQUIPE.md)
+- [Peças, anexos e editor — ativação e testes locais](docs/PECAS-E-ANEXOS.md)
 - [Roadmap e critérios de aceite](docs/ROADMAP.md)
 - [Operação e backup](docs/OPERACAO.md)
 - [Testes e pendências](docs/TESTES.md)
@@ -65,6 +87,7 @@ Páginas públicas podem ser visualizadas sem configurar Supabase. Login e escri
 
 ~~~sh
 pnpm test
+pnpm test:database
 pnpm test:exports
 pnpm check:repository
 ~~~
@@ -73,6 +96,8 @@ A CI executa testes locais e verificação preventiva dos arquivos. Não acessa 
 
 ## Limites atuais
 
-O teste entre duas contas reais confirmadas está pendente. Não há cobrança, anexos compartilhados, IA jurídica, integração com tribunais, cálculo de prazos judiciais ou protocolo. OAB e dados profissionais são autodeclarados. Aprovação interna não equivale a validação jurídica externa.
+O teste entre duas contas reais confirmadas está pendente. O SMTP provisório foi preparado, mas o salvamento da credencial e a entrega dos e-mails ainda precisam ser confirmados. Para conferir os modelos sem enviar mensagens, execute `pnpm preview:emails` e abra `http://127.0.0.1:8773`.
+
+Não há cobrança, IA jurídica, integração com tribunais, cálculo de prazos judiciais ou protocolo. OAB e dados profissionais são autodeclarados. Aprovação interna não equivale a validação jurídica externa. Os indicadores distinguem espera por resposta de esforço ativo; não demonstram economia de tempo antes de um piloto real. Convites do escritório são compartilhados por link; configurar SMTP de autenticação não ativa envio automático desses convites.
 
 Este repositório guarda código e estrutura; não é backup de usuários ou processos. Bibliotecas e fontes conservam suas respectivas licenças em dist/vendor e dist/assets/fonts.
