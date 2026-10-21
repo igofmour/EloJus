@@ -4,10 +4,11 @@
 
 Plataforma de trabalho para escritórios de advocacia: organizar casos, distribuir tarefas, elaborar minutas e revisar em equipe, com identidade visual em preto e branco.
 
-**Versão 0.25.0 · validação para piloto.** O esquema v0.25 está ativo no Supabase desde 20/10/2026. Autenticação, anexos e colaboração foram conferidos com a conta atual; permissões e revisão entre papéis passaram em testes no banco real. Ainda faltam SMTP validado e o fluxo com duas contas reais. Contratação continua sem cobrança.
+**Versão 0.26.0 · validação para piloto.** O esquema v0.25 está ativo no Supabase desde 20/10/2026. Autenticação, anexos e colaboração foram conferidos com a conta atual; permissões e revisão entre papéis passaram em testes no banco real. Ainda faltam SMTP validado e o fluxo com duas contas reais. Contratação continua sem cobrança.
 
 ## Leitura rápida
 
+- **Plano e futuro link de pagamento:** [configuração e limites](docs/PLANO.md).
 - **O que mudou:** [histórico da versão](CHANGELOG.md).
 - **O que falta e em qual ordem:** [roadmap gerencial](docs/ROADMAP.md).
 - **Como operar e validar a entrega:** [plano de entrega](docs/PREPARACAO-ENTREGA.md) e [evidências dos testes](docs/TESTES.md).
@@ -19,8 +20,8 @@ Plataforma de trabalho para escritórios de advocacia: organizar casos, distribu
 | --- | --- |
 | Apresentação, login, cadastro e recuperação | Implementados; envio público de e-mails depende de SMTP |
 | Escritório e responsável | Cadastro salvo e vinculado à conta autenticada |
-| Planos | Essencial, Equipe e Personalizado; escolha persistida, preços a definir |
-| Contratação | Resumo do escritório e plano, sem pagamento |
+| Plano | Equipe: R$ 129/mês para até 3 pessoas, R$ 19 por adicional; escolha persistida |
+| Contratação | Resumo do escritório, preço e condições; pagamento indisponível, link a configurar |
 | Equipe | Cadastro de advogados e estagiários pelo administrador, OAB/UF, convites, edição e desativação com permissões no banco |
 | Casos e minutas | Supabase, versões, comentários e fluxo de revisão |
 | Editor | A4, margens, quebras visíveis, Word e PDF |

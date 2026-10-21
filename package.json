@@ -1,13 +1,15 @@
 {
   "name": "elojus",
-  "version": "0.25.0",
+  "version": "0.26.0",
   "private": true,
   "scripts": {
     "vendor:auth": "node tools/vendor-auth.cjs",
     "test:auth": "node --test test-auth.cjs",
     "test:office": "node --test test-office.cjs",
     "test:shared": "node --test test-shared.cjs test-team.cjs",
-    "test": "node --test test-auth.cjs test-office.cjs test-shared.cjs test-team.cjs test-config.cjs test-workspace.cjs test-rich-document.cjs test-guided.cjs test-attachments.cjs test-continuous.cjs test-full-document.cjs test-case-files.cjs test-review.cjs test-demo-preview.cjs test-readiness.cjs",
+    "test": "node --test test-auth.cjs test-office.cjs test-plans.cjs test-shared.cjs test-team.cjs test-config.cjs test-workspace.cjs test-rich-document.cjs test-guided.cjs test-attachments.cjs test-continuous.cjs test-full-document.cjs test-case-files.cjs test-review.cjs test-demo-preview.cjs test-readiness.cjs",
+    "test:plans:browser": "node qa/plans-browser.cjs",
+    "preview:plans": "node qa/plans-preview.cjs",
     "test:exports": "node test-rich-document.cjs --exports",
     "test:legacy": "node --test test-logic.cjs test-demo-accounts.cjs",
     "check:repository": "node tools/check-repository.cjs",

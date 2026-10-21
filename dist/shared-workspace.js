@@ -70,6 +70,8 @@
     let metricsLink=document.querySelector('nav [data-route="indicadores"]');
     if(!metricsLink){metricsLink=document.createElement('a');metricsLink.href='#indicadores';metricsLink.dataset.route='indicadores';metricsLink.className='side-nav';metricsLink.textContent='▥   Indicadores do piloto';$('#sidebarNav').append(metricsLink);}
     metricsLink.hidden=personal();
+    const planLink=$('#officePlanLink');
+    if(planLink)planLink.hidden=!office||office.responsible_user_id!==user.id;
     $('#accountName').textContent=A.displayName();$('#accountAvatar').textContent=initials(A.displayName());
     $('#officeName').textContent=office?.name||'Seu escritório';$('#officeRole').textContent=preview?.persona==='intern'?'Estagiária · demonstração':roles[role()]||'Sem escritório ativo';$('#officeAvatar').textContent=initials(office?.name||'EloJus');
     const select=$('#officeSelect');select.hidden=offices.length<2;select.innerHTML=offices.map(o=>`<option value="${e(o.id)}" ${o.id===office?.id?'selected':''}>${e(o.name)}</option>`).join('');
