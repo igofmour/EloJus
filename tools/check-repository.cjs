@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const staged = process.argv.includes('--staged');
-const files = execFileSync('git', ['ls-files', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean);
+const files = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean);
 const denied = /(^|\/)(node_modules|\.pnpm-store|\.openai|\.codex|\.agents|backups|private)(\/|$)|(^|\/)\.env(?!\.example$)|^dist\/auth-config\.js$|(^|\/)preview-|\.(?:dump|backup|pem|key|p12|pfx|zip)$/i;
 const patterns = [
   ['chave privada', /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],

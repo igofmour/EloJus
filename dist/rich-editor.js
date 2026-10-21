@@ -45,6 +45,7 @@
     bar.addEventListener('mousedown', event => { if (event.target.closest('button')) event.preventDefault(); });
     function command(control) {
       active ||= instances[0]; if (!active) return;
+      if(!active.quill.isEnabled())return;
       const q = active.quill, range = active.range || { index: 0, length: 0 }, name = control.dataset.format;
       q.focus({ preventScroll: true }); q.setSelection(range, 'silent');
       q.history.cutoff();
@@ -79,5 +80,15 @@
     q.history.cutoff(); q.setSelection(at, 0, 'user'); q.focus();
     return true;
   }
-  window.EloEditor = { toolbar, mount, unmount, selection, appendText };
+  function locateText(text){
+    if(!text)return false;
+    const entry=instances.find(x=>x.section.id==='corpo');if(!entry)return false;
+    const full=entry.quill.getText(),at=full.indexOf(text);
+    if(at<0||full.indexOf(text,at+1)!==-1)return false;
+    entry.quill.setSelection(at,text.length,'silent');entry.quill.focus({preventScroll:true});
+    const leaf=entry.quill.getLeaf(at)[0]?.domNode;(leaf?.nodeType===3?leaf.parentElement:leaf)?.scrollIntoView({block:'center',behavior:'smooth'});return true;
+  }
+  function setEnabled(enabled){for(const entry of instances){entry.quill.enable(enabled);entry.quill.root.setAttribute('aria-readonly',String(!enabled));}bar?.querySelectorAll('button,select').forEach(n=>n.disabled=!enabled);}
+  function focusEnd(){const entry=active||instances[0];if(!entry?.quill.isEnabled())return;entry.quill.setSelection(entry.quill.getLength()-1,0,'silent');entry.quill.focus({preventScroll:true});}
+  window.EloEditor = { toolbar, mount, unmount, selection, appendText, setEnabled, focusEnd, locateText };
 })();

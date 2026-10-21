@@ -14,8 +14,8 @@
   }
   function inspect() {
     const root = fixture.querySelector('.paginated-text'), stack = fixture.querySelector('.page-stack');
-    const zoom = stack.getBoundingClientRect().width / (210*96/25.4), origin = root.getBoundingClientRect().top;
-    const stride = 297*96/25.4+28, margin=25*96/25.4;
+    const zoom = stack.getBoundingClientRect().width / (210*96/25.4), origin = stack.getBoundingClientRect().top;
+    const stride = 297*96/25.4+28, margin=25.4*96/25.4;
     const walker=document.createTreeWalker(root, NodeFilter.SHOW_TEXT), bad=[]; let node, count=0;
     while ((node=walker.nextNode())) {
       if (!node.textContent.trim()) continue;
@@ -51,6 +51,15 @@
     q=render();q.setContents({ops:[{insert:'\n'}]},'user');await settle();
     check(inspect().pages===1,'clearing the document removes surplus pages');
     check(q.root.classList.contains('ql-blank'),'blank document remains editable');
+    for (const value of ['fit','0.75','1','1.25']) {
+      const control=fixture.querySelector('[aria-label="Zoom da página"]');
+      control.value=value;control.dispatchEvent(new Event('change'));await settle();
+      q.setSelection(0,0,'silent');q.focus({preventScroll:true});
+      const sheet=fixture.querySelector('.page-sheet').getBoundingClientRect(), br=q.root.querySelector('br').getBoundingClientRect();
+      const scale=sheet.width/(210*96/25.4), x=(br.x-sheet.x)/scale, y=(br.y-sheet.y)/scale;
+      check(Math.abs(x-96)<1 && y>=96 && y<104,`empty caret starts at the text margin at zoom ${value}: ${x.toFixed(2)}, ${y.toFixed(2)}`);
+      check(q.getText()==='\n','empty caret fix adds no document text');
+    }
     q.insertText(0,'Texto final.','user');await settle();check(!inspect().bad.length,'typing after clearing remains inside margins');
     results.dataset.status='passed'; report.push('COMPLETE');results.textContent=report.join('\n');
   } catch(error) { results.dataset.status='failed';results.textContent=report.join('\n')+'\n'+error.stack; }

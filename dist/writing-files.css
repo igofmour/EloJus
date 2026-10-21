@@ -1,0 +1,13 @@
+.writing-files{padding:18px 20px;background:#fafafa;border:1px solid #ddd;border-bottom:0;color:#111}
+.writing-files-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.writing-files h3{margin:0 0 5px;font:600 14px/1.5 'DM Sans',sans-serif;letter-spacing:normal}
+.writing-files p{margin:0;color:#555;font:12px/1.6 'DM Sans',sans-serif}
+.writing-files .writing-files-help{margin-top:8px;font-size:11px}
+.writing-files .button{font-size:12px;flex-shrink:0}
+.writing-files-list{margin-top:14px;border-top:1px solid #ddd;padding-top:10px}
+.writing-files-list summary{cursor:pointer;font:600 12px/1.6 'DM Sans',sans-serif}
+.writing-file{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #e6e6e6}
+.writing-file:last-child{border-bottom:0;padding-bottom:0}
+.writing-file>span{min-width:0}.writing-file strong,.writing-file small{display:block;overflow-wrap:anywhere;font:12px/1.6 'DM Sans',sans-serif}
+.writing-file strong{font-weight:600}.writing-file small{font-size:11px;color:#666}
+@media(max-width:760px){.writing-files{padding:15px}.writing-files-heading{align-items:stretch;flex-direction:column;gap:12px}.writing-files-heading>.button{align-self:flex-start}.writing-file{flex-wrap:wrap}}

@@ -22,4 +22,5 @@ jobs:
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm check:repository
       - run: pnpm test
+      - run: pnpm test:database
       - run: pnpm test:exports

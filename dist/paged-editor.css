@@ -6,14 +6,13 @@
 .page-stack{position:relative;width:210mm;margin:0 auto;isolation:isolate}
 .page-sheets{position:absolute;inset:0;pointer-events:none;z-index:-1}
 .page-sheet{position:absolute;left:0;width:210mm;height:297mm;background:#fff;border:1px solid #c9c9c9;box-shadow:0 2px 5px #00000012}
-.page-margin-guide{position:absolute;inset:25mm;border:1px dashed #d7d7d7}.hide-margin-guides .page-margin-guide{display:none}
-.page-sheet-number{position:absolute;bottom:11mm;right:25mm;font:10px/1 Arial,sans-serif;color:#777}
+.page-sheet-number{position:absolute;bottom:11mm;right:25.4mm;font:10px/1 Arial,sans-serif;color:#777}
 .page-break-label{position:absolute;top:100%;height:28px;left:0;right:0;display:flex;align-items:center;justify-content:center;color:#777;font:9px/1 'DM Sans',sans-serif;letter-spacing:.04em}
-.page-flow{position:relative;margin:0 25mm;display:block}
+.page-flow{position:relative;margin:0 25.4mm;padding-top:25.4mm;display:block}
 .page-flow .rich-host{height:auto;position:relative;border:0;overflow:visible}
-.page-flow .paginated-text{display:block;position:relative;height:auto;min-height:0!important;padding:0!important;overflow:visible!important;font:11pt/1.6 Arial,sans-serif!important;color:#111;white-space:pre-wrap;overflow-wrap:anywhere;outline:none!important;background:transparent!important}
+.page-flow .paginated-text{display:block;position:relative;height:auto;min-height:calc(var(--flow-height) - 28px)!important;padding:0!important;overflow:visible!important;font:11pt/1.6 Arial,sans-serif!important;color:#111;white-space:pre-wrap;overflow-wrap:anywhere;outline:none!important;background:transparent!important}
 .page-flow .paginated-text::before{content:''!important;display:block;position:static!important;float:left;width:100%;height:var(--flow-height);shape-outside:var(--page-shape);pointer-events:none}
-.page-flow .paginated-text.ql-blank::after{content:attr(data-placeholder);position:absolute;left:0;right:0;top:25mm;color:#888;font:11pt/1.6 Arial,sans-serif;pointer-events:none}
+.page-flow .paginated-text.ql-blank::after{content:attr(data-placeholder);position:absolute;left:0;right:0;top:0;color:#888;font:11pt/1.6 Arial,sans-serif;pointer-events:none}
 .page-flow .paginated-text p{font:inherit;margin:0 0 10px;white-space:pre-wrap}
 .page-flow .paginated-text h1,.page-flow .paginated-text h3{font:700 15pt/1.4 Arial,sans-serif;margin:14px 0 9px;letter-spacing:normal}
 .page-flow .paginated-text h2,.page-flow .paginated-text h4{font:700 13pt/1.4 Arial,sans-serif;margin:12px 0 8px;letter-spacing:normal}

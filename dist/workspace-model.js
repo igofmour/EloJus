@@ -4,7 +4,7 @@
 })(typeof globalThis === 'object' ? globalThis : this, function (G, A) {
   'use strict';
   const KEY = 'elojus-workspace-v2';
-  const USERS = { marina: { name: 'Marina', initials: 'MA', role: 'Advogada', reviewer: true }, lucas: { name: 'Lucas', initials: 'LU', role: 'Estagiário' }, clara: { name: 'Clara', initials: 'CL', role: 'Estagiária' } };
+  const USERS = { marina: { name: 'Marina', initials: 'MA', role: 'Advogada', professionalType: 'lawyer', reviewer: true }, lucas: { name: 'Lucas', initials: 'LU', role: 'Estagiário', professionalType: 'intern' }, clara: { name: 'Clara', initials: 'CL', role: 'Estagiária', professionalType: 'intern' } };
   const STATUS = { intake: 'A distribuir', working: 'Em elaboração', review: 'Para revisar', changes: 'Ajustes solicitados', approved: 'Aprovado internamente' };
   const clone = value => JSON.parse(JSON.stringify(value));
   const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
@@ -128,5 +128,11 @@
     while (i < a.length || j < b.length) { if (i < a.length && j < b.length && a[i] === b[j]) { html += escape(a[i++]); j++; } else if (j < b.length && (i === a.length || rows[i][j + 1] >= rows[i + 1][j])) html += `<ins>${escape(b[j++])}</ins>`; else html += `<del>${escape(a[i++])}</del>`; }
     return html;
   }
-  return { KEY, USERS, STATUS, clone, escape, dateKey, createSeed, importLegacy, validState, canEdit, pending, transition, diffWords };
+  // Permissions for the fictional profiles in demonstracao.html.
+  function canCreateGuided(userId) { return USERS[userId]?.professionalType === 'lawyer'; }
+  function createGuided(base, id, type, userId, now = Date.now()) {
+    if (!canCreateGuided(userId)) return null;
+    return G.create(base, id, type, now);
+  }
+  return { KEY, USERS, STATUS, clone, escape, dateKey, createSeed, importLegacy, validState, canEdit, canCreateGuided, createGuided, pending, transition, diffWords };
 });

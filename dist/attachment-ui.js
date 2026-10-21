@@ -1,13 +1,16 @@
 (() => {
   'use strict';
-  const A = window.EloAttachments, S = window.EloFileStore, M = window.EloModel, e = M.escape;
+  const A = window.EloAttachments, S = window.EloFileStore, M = window.EloModel, W = window.EloWritingFiles, e = M.escape;
   const $ = s => document.querySelector(s), uid = () => crypto.randomUUID();
-  let ctx, busy = false, pickerCase, previewUrl, previewToken = 0, pdfSession, linkAnchor;
+  let ctx, busy = false, pickerCase, pickerWriting=false, previewUrl, previewToken = 0, pdfSession, linkAnchor;
   const results = new Map();
   const canManage = (item, userId) => M.canEdit(item, userId) || (item.status === 'intake' && userId === 'marina');
   const size = n => n < 1024 * 1024 ? `${Math.max(1, Math.ceil(n / 1024))} KB` : `${(n / 1024 / 1024).toFixed(1)} MB`;
   const button = (text, action, extra = '', cls = '') => `<button type="button" class="button ${cls || 'quiet'}" data-attachment-action="${action}" ${extra}>${text}</button>`;
   const attr = (name, value) => `data-${name}="${e(value)}"`;
+  function writingFiles(item,userId){
+    return W.render({local:true,editable:canManage(item,userId),busy,files:A.active(item).map(f=>({id:f.id,name:f.name,info:size(f.size),available:f.availability==='ready'}))});
+  }
   function library(item, userId) {
     const editable = canManage(item, userId), files = A.active(item), retired = A.files(item).filter(f => f.archived), issues = A.issues(item);
     const card = file => {
@@ -38,9 +41,10 @@
     try { fn(); recordEvent(item, message, actor); if (!ctx.persist()) throw new Error('O registro não foi salvo. Libere espaço no navegador e tente novamente.'); }
     catch (error) { Object.assign(item, before); throw error; }
   }
-  async function upload(item, inputFiles) {
+  async function upload(item, inputFiles, writing=false) {
     if (busy || !inputFiles.length) return;
     const actor = ctx.userId(); if (!canManage(item, actor)) { ctx.notify('Upload indisponível nesta visão.'); return; }
+    if(writing){try{W.validate(inputFiles);}catch{ctx.notify(W.message);return;}}
     busy = true; let count = 0; const errors = []; ctx.render();
     try {
       for (const file of inputFiles) {
@@ -127,7 +131,7 @@
   function init(callbacks) {
     ctx = callbacks;
     const input = document.createElement('input'); input.type = 'file'; input.multiple = true; input.accept = Object.keys(A.formats).map(ext => '.' + ext).join(','); input.hidden = true; input.id = 'caseFileInput'; input.setAttribute('aria-label', 'Arquivos para adicionar ao caso'); document.body.append(input);
-    input.addEventListener('change', () => { const item = pickerCase; pickerCase = null; const files = [...input.files]; input.value = ''; if (item) upload(item, files); });
+    input.addEventListener('change', () => { const item = pickerCase, writing=pickerWriting; pickerCase = null; pickerWriting=false; const files = [...input.files]; input.value = ''; if (item) upload(item, files,writing); });
     $('#workspaceDialog').addEventListener('close', () => { if (!$('#workspaceDialog').open) closePreview(); });
     document.addEventListener('click', ev => {
       const target = ev.target.closest('[data-attachment-action]'); if (!target) return;
@@ -137,7 +141,7 @@
       if (action === 'jump') return ctx.jump(target.dataset.section);
       if (busy) { ctx.notify('Aguarde o salvamento dos arquivos.'); return; }
       if (!canManage(item, ctx.userId())) { ctx.notify('Documentos em leitura nesta visão.'); return; }
-      if (action === 'upload') { pickerCase = item; input.click(); return; }
+      if (action === 'upload'||action==='uploadDraft') { pickerCase = item; pickerWriting=action==='uploadDraft'; input.accept=pickerWriting?W.accept:Object.keys(A.formats).map(ext=>'.'+ext).join(','); input.click(); return; }
       if (action === 'link') return linkDialog(item, target.dataset);
       try {
         if (action === 'archive' && file) mutate(item, () => { file.archived = true; }, `${A.label(file)} retirado do caso; vínculos mantidos para conferência.`);
@@ -162,5 +166,5 @@
     document.addEventListener('dragover', ev => { if ([...ev.dataTransfer.types].includes('Files')) { ev.preventDefault(); ev.dataTransfer.dropEffect = ev.target.closest('[data-drop-case]') && !busy ? 'copy' : 'none'; } });
     document.addEventListener('drop', ev => { if (!ev.dataTransfer.files.length) return; ev.preventDefault(); const zone = ev.target.closest('[data-drop-case]'), item = zone && ctx.cases().find(c => c.id === zone.dataset.dropCase); if (item) upload(item, [...ev.dataTransfer.files]); });
   }
-  window.EloAttachmentUI = { library, section, refreshLinks, init, audit, closePreview, isBusy: () => busy };
+  window.EloAttachmentUI = { library, writingFiles, section, refreshLinks, init, audit, closePreview, isBusy: () => busy };
 })();

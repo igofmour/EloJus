@@ -3,10 +3,18 @@ const assert=require('node:assert/strict');
 const Save=require('./dist/shared-save.js');
 const doc=text=>({ops:[{insert:text+'\n'}]});
 const row={id:'case-a',revision:1,document:doc('Inicial')};
+test('Word export uses A4 with normal one-inch margins',async()=>{
+ const R=require('./dist/rich-document.js'),D=require('docx'),Zip=require('jszip');
+ const document=R.docxDocument({id:'QA',title:'Minuta',documentTitle:'Teste',fullDocument:true,shared:true,sections:[{id:'corpo',omitTitle:true,delta:doc('Texto de teste')}]},D,'A4');
+ const zip=await Zip.loadAsync(await D.Packer.toBuffer(document));
+ const xml=await zip.file('word/document.xml').async('string');
+ assert.match(xml,/<w:pgSz[^>]*w:w="11906"[^>]*w:h="16838"/);
+ for(const side of ['top','bottom','left','right'])assert.match(xml,new RegExp(`w:${side}="1440"`));
+});
 test('shared PDF export includes authored text without demonstration notice or case instructions',()=>{
  const R=require('./dist/rich-document.js');
  const definition=R.pdfDefinition({id:'ELO-1',title:'Caso',documentTitle:'Minuta',fullDocument:true,shared:true,instructions:'INTERNAL_SECRET',sections:[{id:'corpo',omitTitle:true,delta:doc('Texto final')}]},'A4');
- const output=JSON.stringify(definition);assert.match(output,/Texto final/);assert.doesNotMatch(output,/INTERNAL_SECRET|Minuta demonstrativa/);assert.equal(definition.pageSize,'A4');
+ const output=JSON.stringify(definition);assert.match(output,/Texto final/);assert.doesNotMatch(output,/INTERNAL_SECRET|Minuta demonstrativa/);assert.equal(definition.pageSize,'A4');assert.deepEqual(definition.pageMargins,[72,72,72,72]);
 });
 test('serial saves keep edits typed while a request is in flight',async()=>{
  let release;const calls=[];

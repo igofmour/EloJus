@@ -1,0 +1,2 @@
+const fs=require('node:fs'),{database}=require('./local-postgres.cjs');
+(async()=>{const db=await database();try{const results=await db.exec(fs.readFileSync('qa/file-review-remote.sql','utf8'));const summary=results.flatMap(r=>r.rows||[]).find(r=>r.result)?.result;if(!summary?.passed)throw Error('No passing v25 summary');console.log('file-review: '+summary.passed+' checks passed.');}finally{await db.close();}})().catch(e=>{console.error(e.message,e.detail||'');process.exitCode=1;});

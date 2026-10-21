@@ -14,6 +14,29 @@ assert.equal(state.cases[3].sections[2].text, old.cases[3].sections[2].text, 'in
 assert.equal(state.cases[3].sections[2].delta.ops[0].insert, 'NOTA_INTERNA_SECRETA', 'rich internal notes retained');
 assert.ok(!JSON.stringify(R.pdfDefinition(state.cases[3])).includes('NOTA_INTERNA_SECRETA'));
 assert.deepEqual(G.document(state.cases[3]).sections.map(s => s.id), ['contexto', 'fatos']);
+const guidedUiContext = { window: { EloGuided: G, EloModel: M } };
+vm.runInNewContext(fs.readFileSync('dist/guided-ui.js', 'utf8'), guidedUiContext);
+const GU = guidedUiContext.window.EloGuidedUI;
+const source = state.cases[3], beforeCreation = JSON.stringify(source);
+for (const actor of ['lucas', 'clara', 'unknown', undefined]) {
+  assert.equal(GU.bar(source, 'document', actor), '', 'restricted profiles have no creation invitation');
+  assert.equal(GU.choose(actor), '', 'restricted profiles cannot open the type selector');
+  for (const type of Object.keys(G.types)) {
+    assert.equal(M.createGuided(source, 'ELO-098', type, actor, now), null, 'direct creation is denied without the lawyer profile');
+  }
+}
+assert.equal(JSON.stringify(source), beforeCreation, 'denied creation preserves the source');
+assert.match(GU.bar(source, 'document', 'marina'), /data-action="newGuided"/);
+assert.match(GU.choose('marina'), /data-type="initial"/);
+assert.match(GU.choose('marina'), /data-type="defense"/);
+for (const type of Object.keys(G.types)) {
+  const assigned = M.createGuided(source, 'ELO-098', type, 'marina', now);
+  assert.equal(assigned.guided.type, type);
+  assert.equal(assigned.ownerId, 'lucas', 'lawyer creation retains the assigned intern');
+  assert.equal(M.canEdit(assigned, 'lucas'), true, 'assigned intern can still elaborate an existing guided piece');
+  assert.match(GU.bar(assigned, 'document', 'lucas'), /data-action="guidedStep"/);
+}
+assert.equal(JSON.stringify(source), beforeCreation, 'lawyer creation preserves the source');
 for (const item of state.cases.slice(6)) {
   assert.ok(G.blockers(item).length > 0, 'examples are not falsely certified');
   const original = JSON.stringify(state.cases[3]);

@@ -1,17 +1,22 @@
 {
   "name": "elojus",
-  "version": "0.21.0",
+  "version": "0.25.0",
   "private": true,
   "scripts": {
     "vendor:auth": "node tools/vendor-auth.cjs",
     "test:auth": "node --test test-auth.cjs",
     "test:office": "node --test test-office.cjs",
-    "test:shared": "node --test test-shared.cjs",
-    "test": "node --test test-auth.cjs test-office.cjs test-shared.cjs test-config.cjs test-workspace.cjs test-rich-document.cjs test-guided.cjs test-attachments.cjs test-continuous.cjs test-full-document.cjs",
+    "test:shared": "node --test test-shared.cjs test-team.cjs",
+    "test": "node --test test-auth.cjs test-office.cjs test-shared.cjs test-team.cjs test-config.cjs test-workspace.cjs test-rich-document.cjs test-guided.cjs test-attachments.cjs test-continuous.cjs test-full-document.cjs test-case-files.cjs test-review.cjs test-demo-preview.cjs test-readiness.cjs",
     "test:exports": "node test-rich-document.cjs --exports",
     "test:legacy": "node --test test-logic.cjs test-demo-accounts.cjs",
     "check:repository": "node tools/check-repository.cjs",
-    "configure:auth": "node --env-file=.env tools/configure-auth.cjs"
+    "configure:auth": "node --env-file=.env tools/configure-auth.cjs",
+    "test:database": "node qa/local-postgres.cjs && node qa/review-workflow.cjs && node qa/file-review.cjs",
+    "preview:workflow": "node qa/workflow-preview.cjs",
+    "preview:sara": "node qa/workflow-preview.cjs 8772",
+    "preview:emails": "node qa/email-preview.cjs",
+    "test:demo-preview": "node --test test-demo-preview.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.118.0"
@@ -22,6 +27,7 @@
   },
   "packageManager": "pnpm@11.25.0",
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.10",
     "docx": "9.6.1",
     "jszip": "3.10.1"
   }

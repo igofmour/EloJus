@@ -52,7 +52,7 @@ select pg_temp.check_result('invited collaborator can read office',(select count
 select pg_temp.check_result('user metadata cannot promote permission',(select role='collaborator' from public.office_members where user_id=auth.uid()));
 select pg_temp.check_result('accept retry is idempotent',public.workspace_command('accept_invite',(select doc from qa_ids where k='invite'))->>'office_id'=(select id::text from qa_ids where k='office'));
 select pg_temp.denied('collaborator cannot invite','invite',jsonb_build_object('office_id',(select id from qa_ids where k='office'),'email','x@example.invalid','role','reviewer'),'42501');
-select pg_temp.denied('collaborator cannot create cases','create_case',jsonb_build_object('office_id',(select id from qa_ids where k='office')),'42501');
+select pg_temp.denied('collaborator cannot create for someone else','create_case',jsonb_build_object('office_id',(select id from qa_ids where k='office'),'assignee_id',(select id from qa_users where k='owner')),'42501');
 select pg_temp.qa_user('reviewer');
 select public.workspace_command('accept_invite',(select doc from qa_ids where k='review_invite'));
 select pg_temp.denied('reviewer cannot manage memberships','member_role',jsonb_build_object('office_id',(select id from qa_ids where k='office'),'user_id',(select id from qa_users where k='collab'),'role','reviewer'),'42501');

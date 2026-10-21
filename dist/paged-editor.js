@@ -3,16 +3,17 @@
   // CSS exclusions keep a single Quill document and native selection/history.
   // The page furniture and exclusions never become document content.
   const MM = 96 / 25.4, WIDTH = 210 * MM, HEIGHT = 297 * MM;
-  const MARGIN = 25 * MM, GAP = 28, STRIDE = HEIGHT + GAP;
+  const MARGIN = 25.4 * MM, GAP = 28, STRIDE = HEIGHT + GAP;
   let current = null;
-  const view = { zoom: 'fit', guides: true };
+  const view = { zoom: 'fit' };
 
   function shape(pages) {
+    // The first top margin belongs to the container. A full-width exclusion
+    // above an empty <p><br></p> puts Chromium's caret beside the float.
     const points = ['0 0'];
     for (let page = 0; page < pages; page++) {
       const top = page * STRIDE;
-      points.push(`100% ${top}px`, `100% ${top + MARGIN}px`, `0 ${top + MARGIN}px`,
-        `0 ${top + HEIGHT - MARGIN}px`, `100% ${top + HEIGHT - MARGIN}px`,
+      points.push(`0 ${top + HEIGHT - 2 * MARGIN}px`, `100% ${top + HEIGHT - 2 * MARGIN}px`,
         `100% ${top + STRIDE}px`, `0 ${top + STRIDE}px`);
     }
     points.push(`0 ${pages * STRIDE}px`);
@@ -42,7 +43,7 @@
     const disclaimer = paper.querySelector('.document-disclaimer');
     const controls = document.createElement('div');
     controls.className = 'page-view-controls';
-    controls.innerHTML = '<div><strong>A4</strong><span>21 × 29,7 cm</span><span>Margens de 2,5 cm</span></div><div><label class="page-guides-toggle"><input type="checkbox" checked aria-label="Mostrar guias de margem"> Guias</label><label><span class="sr-only">Zoom da página</span><select aria-label="Zoom da página"><option value="fit">Ajustar à largura</option><option value="0.75">75%</option><option value="1">100%</option><option value="1.25">125%</option></select></label></div>';
+    controls.innerHTML = '<div><strong>A4</strong><span>21 × 29,7 cm</span><span>Margens normais · 2,54 cm</span></div><div><label><span class="sr-only">Zoom da página</span><select aria-label="Zoom da página"><option value="fit">Ajustar à largura</option><option value="0.75">75%</option><option value="1">100%</option><option value="1.25">125%</option></select></label></div>';
     const viewport = document.createElement('div'); viewport.className = 'page-viewport';
     const stack = document.createElement('div'); stack.className = 'page-stack';
     const sheets = document.createElement('div'); sheets.className = 'page-sheets'; sheets.setAttribute('aria-hidden', 'true');
@@ -54,13 +55,11 @@
     root.classList.add('paginated-text');
     let pages = 1, zoom = 1, composing = false;
     controls.querySelector('select').value = view.zoom;
-    controls.querySelector('input').checked = view.guides;
-    stack.classList.toggle('hide-margin-guides', !view.guides);
     const entry = { frame: 0, resize: null, observer: null, events: new AbortController() };
     current = entry;
     function setShape(count) {
       root.style.setProperty('--page-shape', shape(count));
-      root.style.setProperty('--flow-height', `${count * STRIDE}px`);
+      root.style.setProperty('--flow-height', `${count * STRIDE - MARGIN}px`);
     }
     function layout() {
       entry.frame = 0;
@@ -74,7 +73,7 @@
         setShape(capacity);
         const last = root.lastElementChild;
         const bottom = last ? (last.getBoundingClientRect().bottom - root.getBoundingClientRect().top) / zoom : MARGIN + 30;
-        needed = Math.max(1, Math.ceil((bottom + MARGIN) / STRIDE));
+        needed = Math.max(1, Math.ceil((bottom + 2 * MARGIN) / STRIDE));
         if (needed <= capacity) break;
         capacity = needed + 1;
       }
@@ -85,7 +84,7 @@
         sheets.replaceChildren(...Array.from({ length: pages }, (_, i) => {
           const sheet = document.createElement('div'); sheet.className = 'page-sheet';
           sheet.style.top = `${i * STRIDE}px`;
-          sheet.innerHTML = `<div class="page-margin-guide"></div><span class="page-sheet-number">${i + 1} / ${pages}</span>${i < pages - 1 ? `<span class="page-break-label">Quebra de página</span>` : ''}`;
+          sheet.innerHTML = `<span class="page-sheet-number">${i + 1} / ${pages}</span>${i < pages - 1 ? `<span class="page-break-label">Quebra de página</span>` : ''}`;
           return sheet;
         }));
       }
@@ -95,7 +94,10 @@
     }
     function schedule() { if (current === entry && !entry.frame) entry.frame = requestAnimationFrame(layout); }
     controls.querySelector('select').addEventListener('change', event => { view.zoom = event.target.value; schedule(); });
-    controls.querySelector('input').addEventListener('change', event => { view.guides = event.target.checked; stack.classList.toggle('hide-margin-guides', !view.guides); });
+    viewport.addEventListener('click',event=>{
+      const belowText=event.target===root&&event.clientY>(root.lastElementChild?.getBoundingClientRect().bottom||0);
+      if(belowText||event.target===stack||event.target===viewport||event.target===flow||event.target===section)window.EloEditor?.focusEnd();
+    },{signal:entry.events.signal});
     root.addEventListener('compositionstart', () => { composing = true; }, { signal: entry.events.signal });
     root.addEventListener('compositionend', () => { composing = false; schedule(); }, { signal: entry.events.signal });
     // Observe content only; pagination changes CSS variables on the root.
