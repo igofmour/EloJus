@@ -22,6 +22,16 @@ pnpm check:repository
 
 A CI executa as quatro verificações pnpm sem credenciais, acesso ao Supabase, envio de e-mail ou implantação. O scanner é preventivo e não identifica todo possível dado pessoal ou segredo. Exportações e evidências visuais geradas permanecem fora do Git.
 
+## Revisão de uso - 21/10/2026
+
+- Reexecutados: 79 testes Node, suítes de PostgreSQL local, exportações DOCX/PDF, scanner do repositório e suíte de navegador dos planos em desktop e 390/320 px. A suíte do Edge foi executada fora do sandbox após o bloqueio de inicialização do navegador; somente banco e identidades fictícios.
+- Navegador da aplicação: sessão existente, início e equipe carregados do Supabase, com acesso ao plano mantido para o responsável. Nenhum registro real foi alterado nesta revisão.
+- Prévia local: criação pela Sara, digitação, salvamento, recarga, primeira entrega, comentário impeditivo, devolução, edição, indicação de atendimento, segunda rodada, aprovação recusada até a resolução pelo revisor e aprovação final em leitura.
+- Corrigido e reproduzido: o atalho "Ir para o conteúdo" conserva a rota da peça e move o foco ao conteúdo; antes, voltava ao início.
+- Corrigido e conferido nos estados editável, em revisão e aprovado: "Salvar agora" aparece apenas para texto editável.
+- Corrigido: a demonstração oculta o link de planos que não possui autenticação naquele servidor. O atalho permanece disponível no escritório real. Entrada por "Testar como Sara" conferida.
+- Os testes de alteração usaram a prévia descartável na porta 8772. Não substituem a validação pendente de duas contas reais, entrega de e-mails ou pagamento.
+
 ## Plano Equipe v0.27
 
 - Navegador Edge: mensal/anual, valores com centavos, benefícios, teclado, gravação confirmada no PostgreSQL local, recarga e resumo.
