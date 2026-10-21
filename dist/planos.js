@@ -1,6 +1,7 @@
 (async () => {
   'use strict';
-  const A = window.EloAuth, O = window.EloOffice;
+  const A = window.EloAuth, O = window.EloOffice, P = window.EloPlans;
+  P.fill(document);
   const $ = id => document.getElementById(id);
   const form = $('planForm');
   const radios = Array.from(form.querySelectorAll('input[name="plan"]'));
@@ -18,7 +19,7 @@
   function updateChoice() {
     const plan = selection();
     $('selectedPlan').textContent = plan ? 'Plano ' + plan.name : 'Nenhum plano selecionado';
-    $('selectionHint').textContent = plan ? (plan.input.value === office?.plan_code ? 'Escolha salva · sem cobrança' : 'Valor a definir · escolha ainda não salva') : 'Selecione uma das opções acima para continuar.';
+    $('selectionHint').textContent = plan ? P.money(P.current.monthlyCents) + '/mês para até ' + P.current.includedPeople + ' pessoas · ' + (plan.input.value === office?.plan_code ? 'escolha salva' : 'escolha ainda não salva') : 'Selecione o plano acima para continuar.';
     $('planError').hidden = true;
     catalog.forEach(item => {
       item.input.removeAttribute('aria-invalid');
@@ -94,6 +95,7 @@
       $('planChoices').hidden = false;
       form.reset();
       const savedPlan = catalog.get(office.plan_code);
+      $('previousPlanNote').hidden = !office.plan_code || !!savedPlan;
       if (savedPlan) savedPlan.input.checked = true;
       updateChoice();
       if (savedPlan) showReview(false);

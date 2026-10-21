@@ -1,6 +1,6 @@
 # Roadmap gerencial
 
-Atualizado em **20/10/2026**, versão **0.25.0**. Objetivo: reduzir busca de contexto, interrupções e retrabalho entre quem elabora e quem revisa. Prioridades propostas, sem contratar serviços ou atribuir prazos e responsáveis automaticamente.
+Atualizado em **21/10/2026**, versão **0.26.0**. Objetivo: reduzir busca de contexto, interrupções e retrabalho entre quem elabora e quem revisa. Prioridades propostas, sem contratar serviços ou atribuir prazos e responsáveis automaticamente.
 
 ## Situação atual
 
@@ -16,6 +16,8 @@ Atualizado em **20/10/2026**, versão **0.25.0**. Objetivo: reduzir busca de con
 
 O esquema v0.25 está ativo no Supabase. [Evidências e limites dos testes](TESTES.md). Não reaplicar arquivos de referência SQL sobre o banco já migrado.
 
+O plano Equipe foi inserido na versão 0.26: [preços, configuração e limites](PLANO.md). A escolha continua sem ativar assinatura.
+
 ## Próximas ações, em ordem
 
 | Ordem / ID | Prioridade | Ação | Critério de conclusão |
@@ -29,7 +31,7 @@ O esquema v0.25 está ativo no Supabase. [Evidências e limites dos testes](TEST
 | 7 · EJ-03 | P1 | Completar ciclo de vida dos anexos | Retenção/exclusão, recuperação e perda de acesso. Upload/download e isolamento já ativos |
 | 8 · EJ-07 | P1 | Completar governança da equipe | Transferência de administração e desligamento com histórico e acesso revogado verificados |
 | 9 · EJ-09 | P1 | Completar auditoria operacional | Eventos, retenção, acesso e logs sem credenciais ou conteúdo sigiloso |
-| 10 · EJ-06 | P1 | Preparar contratação comercial | Preços, condições, checkout e cancelamento validados em etapa própria; cobrança permanece desativada |
+| 10 · EJ-06 | P1 | Preparar contratação comercial | Oferta Equipe exibida; definir provedor, checkout, confirmação de pagamento e cancelamento. Cobrança permanece desativada |
 | 11 · EJ-10 | P2 | Avaliar coedição e novos avisos | Necessidade confirmada no piloto. Não há coedição de caracteres nem avisos com navegador fechado |
 
 Convites da equipe são compartilhados por link. SMTP de autenticação não ativa envio automático desses convites. A prévia Sara ajuda na demonstração, mas não conclui EJ-02.

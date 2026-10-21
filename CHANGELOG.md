@@ -2,6 +2,15 @@
 
 Versões mais recentes primeiro. O estado atual e as próximas ações estão no [roadmap](docs/ROADMAP.md); os registros antigos descrevem a etapa em que foram produzidos.
 
+## 0.26.0 — plano Equipe
+
+- Uma única oferta: R$ 129/mês para até três pessoas e R$ 19 por pessoa adicional.
+- Acesso pelo menu do responsável, escolha persistida e resumo com condições.
+- Catálogo central e ponto de configuração do futuro link; pagamento indisponível por padrão.
+- Preferências antigas preservadas, sem assinatura, cobrança ou mudança de permissões.
+- Testes de preço e navegador com PostgreSQL local, persistência, erros, isolamento e celular.
+- Sem migração de banco. Detalhes em [Plano do escritório](docs/PLANO.md).
+
 ## 0.25.0 — preparação do ciclo de entrega
 
 - Peça principal por Word, PDF ou TXT, com identificação do arquivo em cada rodada, versão, aprovação e comentário.

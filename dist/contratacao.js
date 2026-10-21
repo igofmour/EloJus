@@ -1,18 +1,17 @@
 (async () => {
   'use strict';
-  const A = window.EloAuth, O = window.EloOffice;
+  const A = window.EloAuth, O = window.EloOffice, P = window.EloPlans;
+  P.fill(document);
   const $ = id => document.getElementById(id);
-  const plans = new Map([
-    ['essencial', { name:'Essencial', description:'Um ponto de partida para quem conduz o próprio trabalho jurídico.' }],
-    ['equipe', { name:'Equipe', description:'Para o escritório que distribui o trabalho e conecta diferentes olhares.' }],
-    ['personalizado', { name:'Personalizado', description:'Para pensar a EloJus a partir da estrutura e das necessidades do escritório.' }]
-  ]);
+  const plans = new Map([[P.current.code, P.current]]);
   const loginAction = { href:'login.html?reason=session&next=%23contratacao', label:'Entrar para continuar' };
   const sessionError = error => ['session_missing','session_not_found','refresh_token_not_found','refresh_token_already_used','bad_jwt'].includes(error?.code) || error?.name === 'AuthSessionMissingError' || error?.status === 401;
   let user = null, epoch = 0;
 
   function clearSummary() {
     $('contractSummary').hidden = true;
+    $('paymentLink').hidden = true; $('paymentLink').removeAttribute('href');
+    $('paymentUnavailable').hidden = false;
     document.querySelectorAll('[data-office-detail]').forEach(element => { element.textContent = ''; });
     ['officeStep', 'planStep'].forEach((id, i) => {
       $(id).classList.remove('completed');
@@ -58,6 +57,11 @@
       $('summaryPhone').textContent = office.phone || 'Não informado';
       $('summaryPlan').textContent = plan.name;
       $('summaryPlanDescription').textContent = plan.description;
+      const checkout = P.paymentUrl();
+      $('paymentLink').hidden = !checkout;
+      $('paymentUnavailable').hidden = !!checkout;
+      if (checkout) $('paymentLink').href = checkout;
+      $('availabilityNote').textContent = checkout ? 'Confira a quantidade de acessos, o total e as condições no pagamento. Abrir o link não ativa sua assinatura na EloJus.' : 'A contratação ainda não está disponível. Nenhum pagamento será solicitado nesta etapa.';
       ['officeStep', 'planStep'].forEach(id => {
         $(id).classList.add('completed'); $(id).querySelector('span').textContent = '✓';
       });
