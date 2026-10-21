@@ -1,0 +1,10 @@
+{
+  "confirmation": {
+    "file": "confirmacao.html",
+    "subject": "Confirme seu cadastro na EloJus"
+  },
+  "recovery": {
+    "file": "recuperacao.html",
+    "subject": "Redefina sua senha da EloJus"
+  }
+}

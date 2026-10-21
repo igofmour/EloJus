@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirme seu cadastro na EloJus</title>
+</head>
+<body style="margin:0;padding:0;background:#f2f2f2;color:#171717;font-family:Arial,Helvetica,sans-serif;">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Confirme seu e-mail para acessar sua conta na EloJus.</div>
+  <table role="presentation" style="width:100%;border-collapse:collapse;background:#f2f2f2;">
+    <tr><td align="center" style="padding:32px 16px;">
+      <table role="presentation" style="width:100%;max-width:560px;border-collapse:collapse;background:#ffffff;border:1px solid #dedede;">
+        <tr><td style="padding:28px 32px;background:#111111;color:#ffffff;font-size:30px;font-weight:600;letter-spacing:-1px;">EloJus</td></tr>
+        <tr><td style="padding:36px 32px;">
+          <p style="margin:0 0 16px;font-size:11px;letter-spacing:2px;color:#666666;">SUA CONTA</p>
+          <h1 style="margin:0 0 20px;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.25;font-weight:400;">Confirme seu e-mail.</h1>
+          <p style="margin:0 0 24px;font-size:16px;line-height:1.6;">Recebemos seu cadastro na EloJus. Use o botão abaixo para confirmar este endereço e continuar seu acesso.</p>
+          <table role="presentation" style="border-collapse:collapse;margin:0 0 24px;"><tr><td style="background:#111111;border-radius:4px;">
+            <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:16px 24px;border:1px solid #111111;border-radius:4px;color:#ffffff;font-size:15px;font-weight:600;text-decoration:none;">Confirmar meu e-mail</a>
+          </td></tr></table>
+          <p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:#555555;">Abra o link no mesmo navegador em que você iniciou o cadastro. Se você não solicitou esta conta, ignore esta mensagem.</p>
+          <p style="margin:24px 0 8px;padding-top:24px;border-top:1px solid #e5e5e5;font-size:12px;line-height:1.6;color:#666666;">Se o botão não funcionar, copie e cole este endereço no navegador:</p>
+          <p style="margin:0;font-size:12px;line-height:1.6;word-break:break-all;"><a href="{{ .ConfirmationURL }}" style="color:#333333;text-decoration:underline;">{{ .ConfirmationURL }}</a></p>
+        </td></tr>
+        <tr><td style="padding:20px 32px;border-top:1px solid #e5e5e5;font-size:12px;line-height:1.6;color:#666666;">EloJus · Mensagem de acesso à sua conta.<br>Não compartilhe este link.</td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
