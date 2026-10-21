@@ -4,7 +4,7 @@
 
 Plataforma de trabalho para escritórios de advocacia: organizar casos, distribuir tarefas, elaborar minutas e revisar em equipe, com identidade visual em preto e branco.
 
-**Versão 0.26.0 · validação para piloto.** O esquema v0.25 está ativo no Supabase desde 20/10/2026. Autenticação, anexos e colaboração foram conferidos com a conta atual; permissões e revisão entre papéis passaram em testes no banco real. Ainda faltam SMTP validado e o fluxo com duas contas reais. Contratação continua sem cobrança.
+**Versão 0.27.0 · validação para piloto.** O esquema v0.25 está ativo no Supabase desde 20/10/2026. Autenticação, anexos e colaboração foram conferidos com a conta atual; permissões e revisão entre papéis passaram em testes no banco real. Ainda faltam SMTP validado e o fluxo com duas contas reais. Contratação continua sem cobrança.
 
 ## Leitura rápida
 
@@ -20,7 +20,7 @@ Plataforma de trabalho para escritórios de advocacia: organizar casos, distribu
 | --- | --- |
 | Apresentação, login, cadastro e recuperação | Implementados; envio público de e-mails depende de SMTP |
 | Escritório e responsável | Cadastro salvo e vinculado à conta autenticada |
-| Plano | Equipe: R$ 129/mês para até 3 pessoas, R$ 19 por adicional; escolha persistida |
+| Plano | Equipe mensal: R$ 149,90; anual: R$ 1.558,80 antecipados, com benefícios; até 3 pessoas e escolha persistida |
 | Contratação | Resumo do escritório, preço e condições; pagamento indisponível, link a configurar |
 | Equipe | Cadastro de advogados e estagiários pelo administrador, OAB/UF, convites, edição e desativação com permissões no banco |
 | Casos e minutas | Supabase, versões, comentários e fluxo de revisão |

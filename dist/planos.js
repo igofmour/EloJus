@@ -19,7 +19,7 @@
   function updateChoice() {
     const plan = selection();
     $('selectedPlan').textContent = plan ? 'Plano ' + plan.name : 'Nenhum plano selecionado';
-    $('selectionHint').textContent = plan ? P.money(P.current.monthlyCents) + '/mês para até ' + P.current.includedPeople + ' pessoas · ' + (plan.input.value === office?.plan_code ? 'escolha salva' : 'escolha ainda não salva') : 'Selecione o plano acima para continuar.';
+    $('selectionHint').textContent = plan ? P.labels(plan.input.value).charge + ' para até ' + P.includedPeople + ' pessoas · ' + (plan.input.value === office?.plan_code && office?.plan_selected_at ? 'escolha salva' : 'escolha ainda não salva') : 'Selecione uma opção acima para continuar.';
     $('planError').hidden = true;
     catalog.forEach(item => {
       item.input.removeAttribute('aria-invalid');
@@ -51,6 +51,7 @@
     $('reviewDescription').textContent = plan.description;
     $('reviewOffice').textContent = office.name;
     $('reviewResponsible').textContent = office.responsible_name;
+    P.fill($('planReview'), plan.input.value);
     $('reviewTitle').textContent = saved ? 'Escolha salva para o escritório.' : 'Confira sua escolha.';
     $('reviewStatus').textContent = saved ? 'Escolha salva · sem assinatura ativa' : 'Aguardando sua confirmação';
     $('savedMessage').hidden = !saved;
@@ -98,7 +99,7 @@
       $('previousPlanNote').hidden = !office.plan_code || !!savedPlan;
       if (savedPlan) savedPlan.input.checked = true;
       updateChoice();
-      if (savedPlan) showReview(false);
+      if (savedPlan && office.plan_selected_at) showReview(false);
     } catch (error) {
       if (request !== epoch) return;
       user = office = null;

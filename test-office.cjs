@@ -49,20 +49,20 @@ test('raw provider diagnostics are not displayed to users',()=>{
   const {O}=setup(); assert.equal(O.message({message:'secret internal diagnostic'}).includes('secret'),false);
   assert.equal(O.planMessage({message:'secret internal diagnostic'}).includes('secret'),false);
 });
-const planRow={id:'office-1',responsible_user_id:'verified-owner',plan_code:'equipe',plan_selected_at:'2026-10-19T12:00:00Z'};
+const planRow={id:'office-1',responsible_user_id:'verified-owner',plan_code:'equipe_mensal',plan_selected_at:'2026-10-19T12:00:00Z'};
 test('plan save sends only choice and filters office plus verified owner',async()=>{
   const {O,calls}=setup({inserted:planRow});
-  assert.equal(await O.savePlan('equipe','office-1','verified-owner'),planRow);
-  assert.deepEqual(JSON.parse(JSON.stringify(calls.find(c=>c.type==='update').payload)),{plan_code:'equipe'});
+  assert.equal(await O.savePlan('equipe_mensal','office-1','verified-owner'),planRow);
+  assert.deepEqual(JSON.parse(JSON.stringify(calls.find(c=>c.type==='update').payload)),{plan_code:'equipe_mensal'});
   assert.ok(calls.some(c=>c.type==='filter'&&c.column==='id'&&c.value==='office-1'));
   assert.ok(calls.some(c=>c.type==='filter'&&c.column==='responsible_user_id'&&c.value==='verified-owner'));
 });
 test('invalid choices, no office, session loss and account switch do not write',async()=>{
   for(const [options,code,officeId,expected] of [
-    [{},'premium','office-1','verified-owner'],[{}, {plan_code:'equipe'},'office-1','verified-owner'],
-    [{},'equipe',null,'verified-owner'],[{},'equipe','office-1',null],
-    [{userError:{code:'session_missing'}},'equipe','office-1','verified-owner'],
-    [{userId:'other'},'equipe','office-1','verified-owner']
+    [{},'premium','office-1','verified-owner'],[{}, {plan_code:'equipe_mensal'},'office-1','verified-owner'],
+    [{},'equipe_mensal',null,'verified-owner'],[{},'equipe_mensal','office-1',null],
+    [{userError:{code:'session_missing'}},'equipe_mensal','office-1','verified-owner'],
+    [{userId:'other'},'equipe_mensal','office-1','verified-owner']
   ]){
     const {O,calls}=setup(options);await assert.rejects(O.savePlan(code,officeId,expected));
     assert.equal(calls.some(c=>c.type==='update'),false);
@@ -70,21 +70,29 @@ test('invalid choices, no office, session loss and account switch do not write',
 });
 test('plan save requires the returned matching office, plan and timestamp',async()=>{
   for(const inserted of [null,{...planRow,id:'other-office'},{...planRow,responsible_user_id:'other-user'}, {...planRow,plan_code:'other-plan'}, {...planRow,plan_selected_at:null}]){
-    const {O}=setup({inserted});await assert.rejects(O.savePlan('equipe','office-1','verified-owner'),{code:'save_unconfirmed'});
+    const {O}=setup({inserted});await assert.rejects(O.savePlan('equipe_mensal','office-1','verified-owner'),{code:'save_unconfirmed'});
   }
   for(const insertError of [{code:'42501'},{code:'PGRST116'},{message:'Failed to fetch'}]){
-    const {O}=setup({insertError});await assert.rejects(O.savePlan('equipe','office-1','verified-owner'));
+    const {O}=setup({insertError});await assert.rejects(O.savePlan('equipe_mensal','office-1','verified-owner'));
   }
 });
 test('reload returns the plan persisted with the office',async()=>{
-  const {O}=setup({reads:[planRow]});assert.equal((await O.load()).office.plan_code,'equipe');
+  const {O}=setup({reads:[planRow]});assert.equal((await O.load()).office.plan_code,'equipe_mensal');
 });
 
 test('retired preferences remain readable but cannot be newly selected',async()=>{
-  for(const code of ['essencial','personalizado']){
+  for(const code of ['essencial','equipe','personalizado']){
     const {O,calls}=setup({reads:[{...planRow,plan_code:code}]});
     assert.equal((await O.load()).office.plan_code,code);
     await assert.rejects(O.savePlan(code,'office-1','verified-owner'),{code:'invalid_plan'});
     assert.equal(calls.some(c=>c.type==='update'),false);
   }
+});
+
+
+test('annual selection is saved distinctly from monthly',async()=>{
+  const annual={...planRow,plan_code:'equipe_anual'};
+  const {O,calls}=setup({inserted:annual});
+  assert.equal(await O.savePlan('equipe_anual','office-1','verified-owner'),annual);
+  assert.deepEqual(JSON.parse(JSON.stringify(calls.find(c=>c.type==='update').payload)),{plan_code:'equipe_anual'});
 });

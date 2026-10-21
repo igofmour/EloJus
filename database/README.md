@@ -32,3 +32,9 @@ qa/legacy guarda testes anteriores à equipe compartilhada; exigem o esquema daq
 9. `file-review-indexes.sql`: índices que cobrem as referências compostas. Remove somente os quatro índices simples criados no item 8; não remove registros.
 
 Ambas aplicadas ao projeto EloJus. `workspace_capabilities` agora retorna 25. Preservados 7 casos e 4 anexos. O roteiro `qa/file-review-remote.sql` passou em 25 cenários com ROLLBACK. Ele usa metadados de arquivos fictícios para verificar regras; não escreve em `storage.objects` nem substitui testes HTTP de upload/download. A validação no navegador é descrita no [plano de entrega](../docs/PREPARACAO-ENTREGA.md).
+
+## v0.27 — opções mensal e anual
+
+Migração `monthly_and_annual_office_plans_v27`, aplicada em 21/10/2026 ao projeto EloJus. Amplia somente `offices_plan_code_check` para aceitar `equipe_mensal` e `equipe_anual`, preservando os códigos anteriores, registros, RLS e grants. O trecho incremental está identificado ao final de `office-plan-selection.sql`; o arquivo completo continua destinado a banco vazio.
+
+`qa/plan-billing.cjs` valida a migração sobre o esquema anterior com escolha já salva, além das permissões e de ambos os novos códigos. `qa/plan-billing-remote.sql` passou em oito verificações locais e remotas, encerradas com ROLLBACK. O escritório existente manteve `equipe`; nenhuma fixture permaneceu. O diagnóstico de segurança manteve somente o aviso preexistente de proteção contra senhas vazadas desativada.

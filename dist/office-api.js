@@ -32,7 +32,7 @@
     throw error || failure('save_unconfirmed');
   }
   async function savePlan(planCode, officeId, expectedUserId) {
-    if (planCode !== 'equipe') throw failure('invalid_plan');
+    if (!['equipe_mensal', 'equipe_anual'].includes(planCode)) throw failure('invalid_plan');
     const user = await A.user();
     if (!expectedUserId || user.id !== expectedUserId) throw failure('account_changed');
     if (!officeId) throw failure('office_missing');

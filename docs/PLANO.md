@@ -1,39 +1,57 @@
 # Plano do escritório
 
-Atualizado em 21/10/2026, versão 0.26.0.
+Atualizado em 21/10/2026, versão 0.27.0.
 
 ## Oferta exibida
 
-Uma opção, **Equipe**, por **R$ 129/mês por escritório**, com até **3 pessoas**. Cada pessoa adicional custa **R$ 19/mês**. Exemplos: quatro pessoas por R$ 148 e cinco por R$ 167. Mensal, sem fidelidade, sem implantação obrigatória e com orientação inicial de até 30 minutos incluída.
+Um plano **Equipe**, com duas opções de contratação para até **3 pessoas**:
 
-O responsável acessa **Plano do escritório** no menu do ambiente, seleciona, revisa e salva. A página de contratação mostra os dados do escritório, o preço-base e a regra para pessoas adicionais. O número de vagas ainda não é contratado ou cobrado nesta etapa.
+| Condição | Mensal | Anual |
+| --- | --- | --- |
+| Código de preferência | `equipe_mensal` | `equipe_anual` |
+| Valor por período | R$ 149,90/mês | R$ 1.558,80/ano, pagamento antecipado |
+| Equivalente mensal | R$ 149,90 | R$ 129,90 |
+| Economia frente a 12 mensalidades | — | R$ 240,00 (13,34%) |
+| Orientação | Até 30 minutos | Implantação guiada de até 60 minutos |
+| Acompanhamento | Suporte habitual | Uma reunião de até 30 minutos, entre o 30º e o 45º dia |
+| Benefícios adicionais | Sem fidelidade anual | Checklist adaptado na implantação e preço-base garantido nos 12 meses |
 
-## Estado da contratação
+Ambas incluem os mesmos recursos e suporte habitual, sem taxa obrigatória de implantação. O anual é uma contratação de 12 meses com pagamento antecipado; R$ 129,90 é o equivalente mensal, não uma cobrança recorrente nem uma oferta de 12 parcelas. Não anuncia dois meses grátis.
 
-- Escolher o plano salva somente `offices.plan_code = equipe`, com a data fornecida pelo banco.
-- Não ativa assinatura, teste gratuito, cobrança, renovação, limite de usuários ou cotas de armazenamento.
-- O botão de pagamento fica desativado, com a informação **Contratação em breve**.
-- Preferências antigas `essencial` e `personalizado` permanecem no banco. A interface pede uma nova confirmação antes de substituí-las pela opção atual. Uma escolha anterior `equipe` continua como preferência, sem representar aceite de cobrança.
-- O preço é a oferta inicial para validação comercial. Não há anual, descontos automáticos ou reajustes programados.
+Pessoa adicional: R$ 19,00/mês; no anual, R$ 228,00 para 12 meses. Entradas durante o anual terão preço proporcional ao período restante, confirmado antes da contratação. A quantidade de pessoas e a proporcionalidade ainda não são contratadas nem cobradas na aplicação.
 
-## Onde configurar o pagamento depois
+Os encontros são serviços agendados para adoção da plataforma: organização da equipe e do primeiro fluxo, checklist e revisão do uso. Não representam consultoria jurídica, migração ilimitada ou suporte exclusivo. Agendamento, entrega do checklist e acompanhamento são operacionais; não há automação de agenda nesta etapa. Regras de renovação, cancelamento e eventual reembolso precisam ser apresentadas antes de liberar a contratação.
 
-O catálogo fica em `dist/plan-catalog.js`. Os valores estão em centavos e alimentam as páginas de plano e contratação. `paymentUrl` está `null`.
+## Escolha e persistência
 
-Quando o meio de pagamento estiver definido, preencher `paymentUrl` com a URL HTTPS do checkout correspondente ao plano e atualizar a versão do recurso nas páginas. URLs vazias, inválidas, com credenciais ou sem HTTPS mantêm a ação indisponível. Não colocar chaves privadas nesse arquivo público.
+O responsável acessa **Plano do escritório**, escolhe mensal ou anual, revisa e salva. As duas telas de resumo usam o catálogo central para preço, periodicidade e benefícios.
 
-O link funciona como encaminhamento ao checkout. O provedor deverá confirmar quantidade de acessos, total, recorrência e condições. Conectar o link **não** implementa confirmação de pagamento, assinatura ativa, webhook, cancelamento ou controle de vagas na EloJus. Essas integrações dependem do meio escolhido e ficam para a próxima etapa.
+- Salva somente `offices.plan_code`, com `plan_selected_at` gerado pelo banco.
+- Não ativa assinatura, teste gratuito, cobrança, renovação ou limite de usuários.
+- Pagamento fica desativado, com **Contratação em breve**.
+- As preferências anteriores `essencial`, `equipe` (R$ 129/mês) e `personalizado` permanecem intactas. A interface pede nova escolha; não converte preço nem periodicidade automaticamente.
+- Trocar a seleção sem salvar não altera o resumo persistido. Repetir uma gravação idêntica preserva sua data.
+
+## Links de pagamento, para configurar depois
+
+`dist/plan-catalog.js` contém dois pontos independentes: `monthly.paymentUrl` e `annual.paymentUrl`, ambos `null`. Preencher apenas quando o checkout correspondente estiver pronto; nunca usar o mesmo checkout mensal para a opção anual. Aceita somente HTTPS sem credenciais na URL. Não colocar chaves privadas no catálogo público.
+
+Conectar links apenas encaminha ao checkout. Confirmação de pagamento, quantidade de acessos, assinatura ativa, webhook, cancelamento, renovação, proporcionalidade e controle de vagas dependem da futura integração com o provedor.
 
 ## Banco e compatibilidade
 
-Nenhuma migração necessária. A alteração usa o código `equipe`, já aceito pelo esquema, e mantém as políticas e a API de seleção existentes. A API da aplicação recusa novas escolhas dos planos retirados; o banco conserva os códigos antigos para compatibilidade. Não há novas permissões ou acesso a dados de outros escritórios.
+A migração `monthly_and_annual_office_plans_v27` amplia somente `offices_plan_code_check`, mantendo os três códigos anteriores e acrescentando `equipe_mensal` e `equipe_anual`. Aplicada ao projeto EloJus em 21/10/2026. O trecho incremental está identificado ao final de `database/office-plan-selection.sql`; não reaplicar o arquivo inteiro no banco existente.
+
+Não altera registros, RLS, permissões de atualização nem o trigger de data. A escolha anterior do escritório existente permaneceu `equipe`. O cliente aceita somente os dois novos códigos; a compatibilidade dos antigos no banco permite leitura e não representa uma assinatura.
 
 ## Verificação
 
-`pnpm test` inclui preço, limites de entrada, configuração de pagamento e leitura das preferências antigas. `pnpm test:database` verifica o esquema consolidado e permissões da plataforma.
+- `pnpm test`: valores em centavos, economia, adicionais, catálogo, URLs, identidade verificada e confirmação de salvamento.
+- `pnpm test:database`: regressões existentes e `qa/plan-billing.cjs`, que verifica migração com dados existentes, ambas as opções, repetição, anonimato, isolamento e campos protegidos.
+- `qa/plan-billing-remote.sql`: oito verificações executadas localmente e no Supabase real, com identidades fictícias e ROLLBACK. Nenhum dado de teste permaneceu.
+- `pnpm test:plans:browser`: navegador → cliente Supabase real → API local de QA → PostgreSQL descartável → resumo. Cobre ambos os períodos, teclado, persistência, recarga, seleção não salva, todas as preferências antigas, sessão encerrada, erros/repetição e acesso restrito ao responsável.
+- Layout conferido em 1440, 390 e 320 px, sem rolagem horizontal. Evidências em `test-results/plans/`, fora do Git.
 
-`pnpm test:plans:browser` usa Playwright e `qa/plans-preview.cjs`: navegador, cliente Supabase real, API local de teste e PostgreSQL em memória. Autenticação e dados são fictícios; não se conecta ao projeto remoto. Verifica seleção, falha de salvamento, persistência, recarga, resumo, ausência de pagamento, escolha antiga, sessão encerrada, isolamento do responsável, erro de conexão e larguras de 1440, 390 e 320 px.
+Playwright deve estar instalado no ambiente de QA. Se estiver fora do projeto, definir `ELOJUS_PLAYWRIGHT_PATH`; `ELOJUS_BROWSER_CHANNEL=msedge` ou `chrome` usa um navegador instalado. Não adiciona dependências de navegador à aplicação. A CI executa as suítes Node, PostgreSQL, exportações e scanner; o teste de navegador é local.
 
-Requer Playwright instalado no ambiente de QA. Se estiver fora do projeto, indicar o caminho do pacote em `ELOJUS_PLAYWRIGHT_PATH`; `ELOJUS_BROWSER_CHANNEL=msedge` ou `chrome` permite usar um navegador instalado. Não adiciona dependências de navegador à aplicação. Evidências ficam em `test-results/plans/`, ignorado pelo Git.
-
-Para inspeção manual: `pnpm preview:plans`, em `http://127.0.0.1:8774/planos.html`. O servidor é exclusivo de testes, aceita identidades fictícias e nunca deve ser publicado. A CI executa a suíte Node e PostgreSQL; a inspeção de navegador é separada.
+Para inspeção com dados fictícios: `pnpm preview:plans`, em `http://127.0.0.1:8774/planos.html`. O servidor é exclusivo de QA, aceita identidades fictícias e nunca deve ser publicado.

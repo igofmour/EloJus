@@ -38,3 +38,9 @@ with check (
   and coalesce(((select auth.jwt())->>'is_anonymous'), 'false') = 'false'
   and plan_code is not null
 );
+
+-- v0.27: incremental SQL for monthly_and_annual_office_plans_v27.
+-- Only the allowed preferences change; existing rows and permissions are retained.
+alter table public.offices drop constraint offices_plan_code_check;
+alter table public.offices add constraint offices_plan_code_check
+  check (plan_code in ('essencial', 'equipe', 'personalizado', 'equipe_mensal', 'equipe_anual'));

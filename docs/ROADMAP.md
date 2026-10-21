@@ -1,6 +1,6 @@
 # Roadmap gerencial
 
-Atualizado em **21/10/2026**, versão **0.26.0**. Objetivo: reduzir busca de contexto, interrupções e retrabalho entre quem elabora e quem revisa. Prioridades propostas, sem contratar serviços ou atribuir prazos e responsáveis automaticamente.
+Atualizado em **21/10/2026**, versão **0.27.0**. Objetivo: reduzir busca de contexto, interrupções e retrabalho entre quem elabora e quem revisa. Prioridades propostas, sem contratar serviços ou atribuir prazos e responsáveis automaticamente.
 
 ## Situação atual
 
@@ -16,7 +16,7 @@ Atualizado em **21/10/2026**, versão **0.26.0**. Objetivo: reduzir busca de con
 
 O esquema v0.25 está ativo no Supabase. [Evidências e limites dos testes](TESTES.md). Não reaplicar arquivos de referência SQL sobre o banco já migrado.
 
-O plano Equipe foi inserido na versão 0.26: [preços, configuração e limites](PLANO.md). A escolha continua sem ativar assinatura.
+O plano Equipe tem opções mensal e anual na versão 0.27: [preços, configuração e limites](PLANO.md). A escolha continua sem ativar assinatura.
 
 ## Próximas ações, em ordem
 
