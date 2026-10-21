@@ -7,14 +7,14 @@
   <meta name="description" content="Confira o escritório e o plano escolhido na prévia de contratação da EloJus.">
   <title>Contratação — EloJus</title>
   <link rel="icon" href="assets/elojus-icon-v2.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="planos.css?v=0.26.0">
-  <link rel="stylesheet" href="contratacao.css?v=0.26.0">
+  <link rel="stylesheet" href="planos.css?v=0.27.0">
+  <link rel="stylesheet" href="contratacao.css?v=0.27.0">
   <script src="vendor/supabase.js?v=0.14.0" defer></script>
   <script src="auth-config.js?v=0.14.0" defer></script>
   <script src="auth.js?v=0.21.0" defer></script>
-  <script src="plan-catalog.js?v=0.26.0" defer></script>
-  <script src="office-api.js?v=0.26.0" defer></script>
-  <script src="contratacao.js?v=0.26.0" defer></script>
+  <script src="plan-catalog.js?v=0.27.0" defer></script>
+  <script src="office-api.js?v=0.27.0" defer></script>
+  <script src="contratacao.js?v=0.27.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Ir para o resumo</a>
@@ -34,13 +34,14 @@
             <dl class="office-facts"><div class="responsible-fact"><dt>Advogado responsável</dt><dd id="summaryResponsible" data-office-detail></dd></div><div><dt>OAB / UF</dt><dd id="summaryOab" data-office-detail></dd></div><div><dt>E-mail profissional</dt><dd id="summaryEmail" data-office-detail></dd></div><div><dt>Telefone</dt><dd id="summaryPhone" data-office-detail></dd></div></dl>
             <p class="record-note"><span aria-hidden="true">✓</span> Cadastro vinculado à conta responsável.</p>
           </section>
-          <section class="next-conditions" aria-labelledby="conditionsTitle"><span class="condition-symbol" aria-hidden="true">↗</span><div><p class="eyebrow">ANTES DE CONTRATAR</p><h2 id="conditionsTitle">Tudo claro, antes do próximo passo.</h2><p>Mensal, sem fidelidade e sem taxa obrigatória de implantação. Uma orientação inicial de até 30 minutos está incluída. A quantidade de acessos e o valor total serão confirmados antes do pagamento.</p></div></section>
+          <section class="next-conditions" aria-labelledby="conditionsTitle"><span class="condition-symbol" aria-hidden="true">↗</span><div><p class="eyebrow">ANTES DE CONTRATAR</p><h2 id="conditionsTitle">Tudo claro, antes do próximo passo.</h2><p data-plan-text="terms"></p></div></section>
         </div>
         <section class="contract-plan" aria-labelledby="summaryPlan">
           <div class="plan-topline"><span class="eyebrow">PLANO ESCOLHIDO</span><span class="plan-saved">Escolha salva</span></div>
           <h2 id="summaryPlan" data-office-detail></h2><p id="summaryPlanDescription" class="contract-description" data-office-detail></p>
-          <div class="contract-price"><strong data-plan-text="monthly">R$ 129/mês</strong><span data-plan-text="included">Até 3 pessoas</span></div>
-          <dl class="plan-conditions"><div><dt>Periodicidade</dt><dd>Mensal</dd></div><div><dt>Pessoas adicionais</dt><dd data-plan-text="extra">R$ 19 por pessoa adicional/mês</dd></div><div><dt>Assinatura</dt><dd>Não ativada</dd></div></dl>
+          <div class="contract-price"><strong data-plan-text="charge"></strong><p class="billing-explanation" data-plan-text="equivalent"></p><span data-plan-text="included">Até 3 pessoas</span></div>
+          <dl class="plan-conditions"><div><dt>Periodicidade</dt><dd data-plan-text="billing"></dd></div><div><dt>Pessoas adicionais</dt><dd data-plan-text="extra">R$ 19,00 por pessoa adicional/mês</dd></div><div><dt>Assinatura</dt><dd>Não ativada</dd></div></dl>
+          <ul class="plan-benefits" data-plan-benefits></ul>
           <button type="button" class="button future-contract" id="paymentUnavailable" disabled aria-describedby="availabilityNote">Contratação em breve <span aria-hidden="true">→</span></button>
           <a class="button checkout-link" id="paymentLink" hidden rel="noopener noreferrer" referrerpolicy="no-referrer">Ir para pagamento <span aria-hidden="true">↗</span></a>
           <p id="availabilityNote" class="availability-note">A contratação ainda não está disponível. Nenhum pagamento será solicitado nesta etapa.</p>

@@ -2,6 +2,15 @@
 
 Versões mais recentes primeiro. O estado atual e as próximas ações estão no [roadmap](docs/ROADMAP.md); os registros antigos descrevem a etapa em que foram produzidos.
 
+## 0.27.0 — mensal e anual
+
+- Equipe mensal por R$ 149,90 e anual por R$ 1.558,80 antecipados, equivalente a R$ 129,90/mês; economia de R$ 240 (13,34%).
+- Anual com implantação guiada de 60 minutos, acompanhamento de 30 minutos, checklist adaptado e preço-base garantido por 12 meses.
+- Escolha, revisão e resumo exibem os valores, benefícios e condições da periodicidade salva; links de pagamento continuam vazios e cobrança indisponível.
+- Migração amplia os códigos aceitos, preservando a preferência antiga, as permissões e os registros. Sem conversão automática da oferta anterior.
+- Testes de ambas as opções, centavos, teclado, recarga, erros, isolamento, compatibilidade e telas de 1440/390/320 px; oito verificações no banco remoto com rollback.
+- Detalhes e futura configuração em [Plano do escritório](docs/PLANO.md).
+
 ## 0.26.0 — plano Equipe
 
 - Uma única oferta: R$ 129/mês para até três pessoas e R$ 19 por pessoa adicional.

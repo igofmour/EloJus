@@ -27,9 +27,8 @@
     field('reviewIntro').textContent = existed ? 'Este escritório já está vinculado à sua conta. Os dados abaixo foram recuperados do cadastro salvo.' : 'Dados salvos. O advogado responsável está vinculado à sua conta na EloJus.';
     field('saveNoteIcon').textContent = '✓';
     field('saveNoteTitle').textContent = 'Cadastro confirmado';
-    const planNames = { equipe:'Equipe' };
-    const planName = planNames[office.plan_code];
-    field('saveNoteText').textContent = planName ? 'Plano ' + planName + ' escolhido e salvo para o escritório. Você pode consultar ou alterar essa preferência. Nenhuma assinatura ou cobrança foi ativada.' : (office.plan_code ? 'Sua preferência anterior foi preservada. Conheça o plano atual e confirme se deseja atualizar sua escolha.' : 'O próximo passo é conhecer o plano Equipe: R$ 129/mês para até três pessoas. Você poderá revisar e salvar sua escolha, sem ativar assinatura ou cobrança.');
+    const planName = window.EloPlans.find(office.plan_code)?.name;
+    field('saveNoteText').textContent = planName ? 'Plano ' + planName + ' escolhido e salvo para o escritório. Você pode consultar ou alterar essa preferência. Nenhuma assinatura ou cobrança foi ativada.' : (office.plan_code ? 'Sua preferência anterior foi preservada. Conheça as opções mensal e anual e confirme se deseja atualizar sua escolha.' : 'O próximo passo é conhecer o plano Equipe, com opções mensal e anual para até três pessoas. Você poderá revisar e salvar sua escolha, sem ativar assinatura ou cobrança.');
     field('openWorkspace').textContent = planName ? 'Consultar plano →' : 'Escolher plano →';
     field('saveActions').hidden = true;
     field('saveError').hidden = true;

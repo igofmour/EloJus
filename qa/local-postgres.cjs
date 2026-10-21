@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {PGlite}=require('@electric-sql/pglite');
 const root=path.resolve(__dirname,'..');
-async function database({review=true,delivery=true}={}){
+async function database({review=true,delivery=true,billing=true}={}){
   const db=new PGlite();
   await db.exec(`
     create role anon;create role authenticated;create role service_role bypassrls;
@@ -20,7 +20,8 @@ async function database({review=true,delivery=true}={}){
     grant select,insert,update,delete on storage.objects to authenticated;
   `);
   for(const file of ['office-registration','office-plan-selection','shared-office','team-registration','case-workflow','case-attachments']){
-    await db.exec(fs.readFileSync(path.join(root,'database',file+'.sql'),'utf8'));
+    const sql=fs.readFileSync(path.join(root,'database',file+'.sql'),'utf8');
+    await db.exec(file==='office-plan-selection'&&!billing?sql.split('-- v0.27:')[0]:sql);
   }
   if(review)await db.exec(fs.readFileSync(path.join(root,'database/review-workflow.sql'),'utf8'));
   if(review&&delivery){await db.exec(fs.readFileSync(path.join(root,'database/file-review.sql'),'utf8'));await db.exec(fs.readFileSync(path.join(root,'database/file-review-indexes.sql'),'utf8'));}

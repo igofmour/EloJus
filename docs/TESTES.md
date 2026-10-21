@@ -1,13 +1,13 @@
 # Testes e evidências
 
-Estado consolidado em **21/10/2026**, versão **0.26.0**. Os testes locais foram repetidos antes da atualização do repositório. As evidências de Supabase e navegador vêm das etapas de implementação; não são resultados da CI nem certificação de segurança.
+Estado consolidado em **21/10/2026**, versão **0.27.0**. Os testes locais foram repetidos antes da atualização do repositório. As evidências de Supabase e navegador vêm das etapas de implementação; não são resultados da CI nem certificação de segurança.
 
 ## Verificação local atual
 
 | Verificação | Resultado | Cobertura |
 | --- | --- | --- |
-| pnpm test | 76 testes aprovados | Auth, equipe, permissões da interface, salvamento/conflito, documentos, arquivos, revisão, rascunhos, avisos e métricas |
-| pnpm test:database | 241 verificações aprovadas | PostgreSQL local: 44 de escritório, 36 de equipe, 42 de peças/anexos, 45 do roteiro v24, 49 de revisão e 25 de entrega por arquivo |
+| pnpm test | 79 testes aprovados | Auth, equipe, permissões da interface, salvamento/conflito, documentos, arquivos, revisão, rascunhos, avisos e métricas |
+| pnpm test:database | 241 verificações anteriores + suíte de planos + 8 verificações do roteiro remoto | PostgreSQL local: 44 de escritório, 36 de equipe, 42 de peças/anexos, 45 do roteiro v24, 49 de revisão e 25 de entrega por arquivo; migração, códigos e permissões de planos |
 | pnpm test:exports | Aprovado | DOCX e PDF com formatação e documento de várias páginas |
 | pnpm check:repository | Sem padrões conhecidos de credenciais | Arquivos versionados e novos; revisão manual complementar |
 | Modelos de e-mail | Conferidos localmente | Identidade preta e branca, links gerados pelo Supabase e ausência de scripts/rastreadores externos |
@@ -22,14 +22,15 @@ pnpm check:repository
 
 A CI executa as quatro verificações pnpm sem credenciais, acesso ao Supabase, envio de e-mail ou implantação. O scanner é preventivo e não identifica todo possível dado pessoal ou segredo. Exportações e evidências visuais geradas permanecem fora do Git.
 
-## Plano Equipe v0.26
+## Plano Equipe v0.27
 
-- Navegador Edge: seleção, gravação confirmada no PostgreSQL local, recarga e resumo.
-- Falha de gravação e de consulta, repetição após erro, sessão encerrada e preferência antiga.
+- Navegador Edge: mensal/anual, valores com centavos, benefícios, teclado, gravação confirmada no PostgreSQL local, recarga e resumo.
+- Falha de gravação e consulta, repetição após erro, sessão encerrada, seleção não salva e todos os três códigos antigos.
 - Outra conta e colaborador não alteram a escolha do responsável.
 - Pagamento indisponível; nenhum link externo ou cobrança nesta versão.
 - Layout inspecionado em 1440 e 390 px; sem excesso horizontal também em 320 px.
-- Cliente Supabase e SQL reais no ambiente local; identidades fictícias. Não representa teste de checkout nem nova validação do Supabase remoto.
+- Cliente Supabase e SQL reais no ambiente local; identidades fictícias. Não representa teste de checkout.
+- Oito verificações de planos executadas também no Supabase real com ROLLBACK. A escolha preexistente foi preservada e nenhuma fixture permaneceu.
 - Reprodução e limites em [Plano do escritório](PLANO.md).
 
 ## Supabase: evidências já obtidas

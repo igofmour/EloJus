@@ -3,7 +3,6 @@
   const A = window.EloAuth, O = window.EloOffice, P = window.EloPlans;
   P.fill(document);
   const $ = id => document.getElementById(id);
-  const plans = new Map([[P.current.code, P.current]]);
   const loginAction = { href:'login.html?reason=session&next=%23contratacao', label:'Entrar para continuar' };
   const sessionError = error => ['session_missing','session_not_found','refresh_token_not_found','refresh_token_already_used','bad_jwt'].includes(error?.code) || error?.name === 'AuthSessionMissingError' || error?.status === 401;
   let user = null, epoch = 0;
@@ -45,7 +44,7 @@
         gate('Cadastre seu escritório para preparar o resumo da contratação.', {href:'cadastro-escritorio.html', label:'Cadastrar escritório'});
         return;
       }
-      const plan = plans.get(office.plan_code);
+      const plan = P.find(office.plan_code);
       if (!plan || !office.plan_selected_at) {
         gate('Escolha e salve um plano para conferir o resumo da contratação.', {href:'planos.html', label:'Escolher plano'});
         return;
@@ -57,7 +56,8 @@
       $('summaryPhone').textContent = office.phone || 'Não informado';
       $('summaryPlan').textContent = plan.name;
       $('summaryPlanDescription').textContent = plan.description;
-      const checkout = P.paymentUrl();
+      P.fill($('contractSummary'), plan.code);
+      const checkout = P.paymentUrl(plan.code);
       $('paymentLink').hidden = !checkout;
       $('paymentUnavailable').hidden = !!checkout;
       if (checkout) $('paymentLink').href = checkout;
