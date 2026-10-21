@@ -2,6 +2,13 @@
 
 Versões mais recentes primeiro. O estado atual e as próximas ações estão no [roadmap](docs/ROADMAP.md); os registros antigos descrevem a etapa em que foram produzidos.
 
+## Correções de uso - 21/10/2026
+
+- O atalho de teclado "Ir para o conteúdo" mantém a peça e a rota atuais, levando apenas o foco ao conteúdo.
+- "Salvar agora" aparece somente quando o texto pode ser editado; documentos aprovados ou em leitura não exibem essa ação.
+- A demonstração de Sara e Administrador oculta o link de planos, que depende da sessão do escritório real.
+- Sem mudança de banco, preços ou cobrança. Fluxo de duas rodadas, ajuste impeditivo e aprovação conferido com dados fictícios.
+
 ## 0.27.0 — mensal e anual
 
 - Equipe mensal por R$ 149,90 e anual por R$ 1.558,80 antecipados, equivalente a R$ 129,90/mês; economia de R$ 240 (13,34%).
