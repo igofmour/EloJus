@@ -31,6 +31,6 @@
   "devDependencies": {
     "@electric-sql/pglite": "0.5.10",
     "docx": "9.6.1",
-    "jszip": "3.10.1"
+    "jszip": "3.10.2"
   }
 }
